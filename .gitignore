@@ -1,0 +1,17 @@
+# Node
+dist
+node_modules
+
+# Python
+**/__pycache__
+
+# macOS
+**/.DS_Store
+**/.env
+
+# Ruff
+.ruff_cache
+
+# Workspace settings
+.idea
+.vscode
