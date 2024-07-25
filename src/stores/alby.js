@@ -22,17 +22,17 @@ export const useAlby = defineStore('alby', () => {
     }
   }
 
-  let storeAddress = (value) => {
+  let storeAddress = value => {
     address.value = value
     localStorage.setItem('address', value)
   }
 
-  let storeDerivationPath = (value) => {
+  let storeDerivationPath = value => {
     derivationPath.value = value
     localStorage.setItem('derivationPath', value)
   }
 
-  let storePublicKey = (value) => {
+  let storePublicKey = value => {
     publicKey.value = value
     localStorage.setItem('publicKey', value)
   }
@@ -60,7 +60,7 @@ export const useAlby = defineStore('alby', () => {
     storePublicKey,
     unsetAddress,
     unsetDerivationPath,
-    unsetPublicKey
+    unsetPublicKey,
   }
 })
 

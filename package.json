@@ -35,7 +35,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "fmt": "prettier --write pages",
+    "fmt": "prettier --write src",
     "build": "vite build",
     "preview": "vite preview"
   },

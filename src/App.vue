@@ -35,7 +35,6 @@ let { tapFaucet, fetchBalance } = mutinyNet
 let openGithubRepository = () => {
   window.open('https://github.com/krutt/tayan.git', '_blank', 'noreferrer, noopener')
 }
-
 </script>
 
 <template>
@@ -44,7 +43,7 @@ let openGithubRepository = () => {
       <div class="flex items-center justify-between space-y-2">
         <h2 class="text-3xl font-bold tracking-tight">Tayan</h2>
         <Button
-            @click="connectWallet"
+          @click="connectWallet"
           class="cursor-pointer float-right md:w-1/4 w-1/2"
           v-if="!address"
         >
@@ -96,8 +95,7 @@ let openGithubRepository = () => {
             <CardHeader>
               <CardTitle> Address </CardTitle>
               <CardDescription>
-                This is your Bitcoin Address currently selected and provided by Wallet
-                Extension.
+                This is your Bitcoin Address currently selected and provided by Wallet Extension.
               </CardDescription>
             </CardHeader>
             <CardContent class="break-all text-sm font-medium">
