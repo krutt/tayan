@@ -13,7 +13,6 @@
 
 * [node](https://nodejs.org) - Run JavaScript Everywhere
 * [pnpm](https://pnpm.io) - Fast, disk space efficient package manager
-* [libsecp256k1](https://github.com/bitcoin-core/secp256k1) - Optimized C Library for EC operations on curve secp256k1
 * Web browser of choice (Chrome or Firefox)
   * [![Chrome Logo](static/chrome.svg) Chrome](https://www.google.com/chrome)
   * [![Firefox Logo](static/firefox.svg) Firefox](https://www.mozilla.org/en-US/firefox/new)
