@@ -1,6 +1,5 @@
 <script setup>
 /* imports */
-import { ref } from 'vue'
 import { useAlby } from '@/stores/alby'
 import { useMutinyNet } from '@/stores/mutinyNet'
 import { storeToRefs } from 'pinia'
