@@ -13,6 +13,7 @@ export default defineConfig({
     },
   },
   plugins: [svgLoader(), vue()],
+  publicDir: path.resolve(__dirname, './static'),
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
