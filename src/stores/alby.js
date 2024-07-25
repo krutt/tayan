@@ -16,42 +16,38 @@ export const useAlby = defineStore('alby', () => {
     if (typeof window.webbtc !== 'undefined') {
       await window.webbtc.enable()
       let response = await window.webbtc.getAddress()
-      address.value = response.address
-      derivationPath.value = response.derivationPath
-      publicKey.value = response.publicKey
-      // storeAddress(response.address)
-      // storeDerivationPath(response.derivationPath)
-      // storePublicKey(response.publicKey)
+      storeAddress(response.address)
+      storeDerivationPath(response.derivationPath)
+      storePublicKey(response.publicKey)
     }
-    return true
   }
 
   let storeAddress = (value) => {
     address.value = value
-    // localStorage.setItem('address', value)
+    localStorage.setItem('address', value)
   }
 
   let storeDerivationPath = (value) => {
     derivationPath.value = value
-    // localStorage.setItem('derivationPath', value)
+    localStorage.setItem('derivationPath', value)
   }
 
   let storePublicKey = (value) => {
     publicKey.value = value
-    // localStorage.setItem('publicKey', value)
+    localStorage.setItem('publicKey', value)
   }
 
   let unsetAddress = () => {
     address.value = null
-    // localStorage.removeItem('address')
+    localStorage.removeItem('address')
   }
   let unsetDerivationPath = () => {
     derivationPath.value = null
-    // localStorage.removeItem('derivationPath')
+    localStorage.removeItem('derivationPath')
   }
   let unsetPublicKey = () => {
     publicKey.value = null
-    // localStorage.removeItem('publicKey')
+    localStorage.removeItem('publicKey')
   }
 
   return {
