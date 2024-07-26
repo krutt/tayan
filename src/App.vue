@@ -89,7 +89,7 @@ let openGithubRepository = () => {
         <main class="text-5xl md:text-6xl font-bold">
           <h1 class="inline">
             <span
-              class="inline bg-gradient-to-r from-[#FF146E] via-[#FFADCD] to-[#FF146E] text-transparent bg-clip-text"
+              class="inline bg-gradient-to-r from-[#FE7F2D] via-[#FF9900] to-[#FE7F2D] text-transparent bg-clip-text"
             >
               Tayan
             </span>
@@ -98,7 +98,7 @@ let openGithubRepository = () => {
           <h2 class="inline">
             for
             <span
-              class="inline bg-gradient-to-r from-[#ff9999] via-[#ff9900] to-[#ff9999] text-transparent bg-clip-text"
+              class="inline bg-gradient-to-r from-[#619B8A] via-[#A1C181] to-[#619B8A] text-transparent bg-clip-text"
             >
               Statechain
             </span>
