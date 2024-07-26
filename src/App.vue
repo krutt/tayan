@@ -14,6 +14,14 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import { Jdenticon } from '@/components'
 import { Toaster } from '@/components/ui/sonner'
 
@@ -52,10 +60,27 @@ let openGithubRepository = () => {
           <alby-bee class="h-6 inline ml-2 w-auto" />
         </Button>
         <span class="float-right" v-if="address">
-          <Jdenticon :address='address' />
-          <!-- Balance:&nbsp;
-            {{ balance }}
-            &nbsp;₿-->
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Jdenticon :address="address" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent @closeAutoFocus='void 0'
+              :collisionPadding="{ top: 32, right: 16 }" side="left">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                Balance:&nbsp;
+                {{ balance }}
+                &nbsp;₿
+              </DropdownMenuItem>
+              <DropdownMenuItem @click.capture.native.stop="fetchBalance">
+                Refresh balance
+              </DropdownMenuItem>
+              <DropdownMenuItem disabled="true">
+                Disconnect
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </span>
       </div>
     </div>
@@ -106,9 +131,6 @@ let openGithubRepository = () => {
             <CardFooter class="justify-between space-x-2">
               <Button @click="tapFaucet" class="cursor-pointer" variant="secondary">
                 Tap faucet
-              </Button>
-              <Button @click="fetchBalance" class="cursor-pointer" variant="outline">
-                Fetch balance
               </Button>
             </CardFooter>
           </Card>
