@@ -1,8 +1,12 @@
 {
   "dependencies": {
+    "@cmdcode/tapscript": "^1.4.6",
+    "@noble/secp256k1": "^2.1.0",
     "@vitejs/plugin-vue": "^5.1.0",
     "@vue/reactivity": "^3.4.34",
     "autoprefixer": "^10.4.19",
+    "bech32": "^2.0.0",
+    "browserify-cipher": "^1.0.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lucide-vue-next": "^0.394.0",
