@@ -14,6 +14,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { Toaster } from '@/components/ui/sonner'
 
 /* vectors */
 import AlbyBee from '@/assets/alby.svg'
@@ -113,6 +114,7 @@ let openGithubRepository = () => {
       </div>
     </section>
   </div>
+  <Toaster />
 </template>
 
 <style scoped>

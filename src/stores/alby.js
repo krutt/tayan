@@ -1,8 +1,9 @@
 /* ~~/src/stores/alby.js */
 
 // imports
-import { ref } from '@vue/reactivity'
 import { defineStore } from 'pinia'
+import { ref } from '@vue/reactivity'
+import { toast } from 'vue-sonner'
 
 // store
 export const useAlby = defineStore('alby', () => {
@@ -19,6 +20,10 @@ export const useAlby = defineStore('alby', () => {
       storeAddress(response.address)
       storeDerivationPath(response.derivationPath)
       storePublicKey(response.publicKey)
+      toast.success('Connected', {
+        description: 'Successfully connected Alby Wallet Extension',
+
+      })
     }
   }
 
