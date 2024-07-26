@@ -57,8 +57,8 @@ let openGithubRepository = () => {
         </span>
       </div>
     </div>
-    <section class="container grid lg:grid-cols-2 place-items-center py-20 md:py-32 gap-10">
-      <div class="text-center lg:text-start space-y-6">
+    <section class="container grid xl:grid-cols-3 place-items-center py-20 md:py-32 gap-10">
+      <div class="col-span-3 lg:col-span-1 space-y-6 text-center xl:text-start">
         <main class="text-5xl md:text-6xl font-bold">
           <h1 class="inline">
             <span
@@ -89,7 +89,7 @@ let openGithubRepository = () => {
           </Button>
         </div>
       </div>
-      <div class="grid gap-4 py-4 grid-cols-1">
+      <div class="grid gap-4 py-4 col-span-3 lg:col-span-2">
         <Transition name="fade">
           <Card v-if="address">
             <CardHeader>
