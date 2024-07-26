@@ -26,6 +26,14 @@ export const useMutinyNet = defineStore('mutinyNet', () => {
       })
   }
 
+  let getBlockHeight = async () => {
+    return await fetch('https://mutinynet.com/api/blocks/tip/height')
+      .catch(console.error)
+      .then(async response => {
+        return Number(await response.json())
+      })
+  }
+
   let tapFaucet = async () => {
     await fetch('https://faucet.mutinynet.com/api/onchain', {
       body: JSON.stringify({ address: address.value, sats: 100000 }),
@@ -36,7 +44,7 @@ export const useMutinyNet = defineStore('mutinyNet', () => {
       .then(console.log)
   }
 
-  return { balance, fetchBalance, tapFaucet }
+  return { balance, fetchBalance, getBlockHeight, tapFaucet }
 })
 
 export default useMutinyNet
