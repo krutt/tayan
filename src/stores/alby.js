@@ -22,7 +22,6 @@ export const useAlby = defineStore('alby', () => {
       storePublicKey(response.publicKey)
       toast.success('Connected', {
         description: 'Successfully connected Alby Wallet Extension',
-
       })
     }
   }

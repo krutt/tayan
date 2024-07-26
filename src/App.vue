@@ -14,6 +14,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { Jdenticon } from '@/components'
 import { Toaster } from '@/components/ui/sonner'
 
 /* vectors */
@@ -51,9 +52,10 @@ let openGithubRepository = () => {
           <alby-bee class="h-6 inline ml-2 w-auto" />
         </Button>
         <span class="float-right" v-if="address">
-          Balance:&nbsp;
-          {{ balance }}
-          &nbsp;₿
+          <Jdenticon :address='address' />
+          <!-- Balance:&nbsp;
+            {{ balance }}
+            &nbsp;₿-->
         </span>
       </div>
     </div>
