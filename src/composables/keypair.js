@@ -8,7 +8,7 @@ const { bytesToHex } = useHexlify()
 export const useKeypair = () => {
   return {
     generatePrivateKey: () => bytesToHex(randomPrivateKey()),
-    derivePublicKey: privateKey => getPublicKey(privateKey, true).sub(2),
+    derivePublicKey: privateKey => getPublicKey(privateKey, true),
   }
 }
 

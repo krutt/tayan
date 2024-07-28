@@ -2,6 +2,7 @@
 /* imports */
 import { useAlby } from '@/stores/alby'
 import { useMutinyNet } from '@/stores/mutinyNet'
+import { useStateChain } from '@/stores/stateChain'
 import { storeToRefs } from 'pinia'
 
 /* components */
@@ -32,6 +33,7 @@ import GithubBadge from '@/assets/github.svg'
 // stores
 let alby = useAlby()
 let mutinyNet = useMutinyNet()
+let stateChain = useStateChain()
 
 // refs
 let { address } = storeToRefs(alby)
@@ -64,8 +66,11 @@ let openGithubRepository = () => {
             <DropdownMenuTrigger>
               <Jdenticon :address="address" />
             </DropdownMenuTrigger>
-            <DropdownMenuContent @closeAutoFocus='void 0'
-              :collisionPadding="{ top: 32, right: 16 }" side="left">
+            <DropdownMenuContent
+              @closeAutoFocus="void 0"
+              :collisionPadding="{ top: 32, right: 16 }"
+              side="left"
+            >
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
@@ -76,9 +81,7 @@ let openGithubRepository = () => {
               <DropdownMenuItem @click.capture.native.stop="fetchBalance">
                 Refresh balance
               </DropdownMenuItem>
-              <DropdownMenuItem disabled="true">
-                Disconnect
-              </DropdownMenuItem>
+              <DropdownMenuItem disabled="true"> Disconnect </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </span>
@@ -140,20 +143,19 @@ let openGithubRepository = () => {
             <CardHeader>
               <CardTitle> Statechain </CardTitle>
               <CardDescription>
-                Statechains allow users to rapidly and cheaply transfer real bitcoins between each other without relying on a network of payment channels.
-                Double-spending prevention is done by
-                <italic>
-                  semi-trusted
-                </italic>
-                Statechain operators. One may try to steal funds from you by sharing their vTXO while obscuring ties with the Statechain operator, or even
-                be one him/herself. Due to reduced security when compared to Bitcoin, Statechains are able to achieve many feats and extensibilities which
-                makes the risk and reward of using one for fun or profit open to personal discretion. May the odds be ever in your favour.
+                Statechains allow users to rapidly and cheaply transfer real bitcoins between each
+                other without relying on a network of payment channels. Double-spending prevention
+                is done by
+                <italic> semi-trusted </italic>
+                Statechain operators. One may try to steal funds from you by sharing their vTXO
+                while obscuring ties with the Statechain operator, or even be one him/herself. Due
+                to reduced security when compared to Bitcoin, Statechains are able to achieve many
+                feats and extensibilities which makes the risk and reward of using one for fun or
+                profit open to personal discretion. May the odds be ever in your favour.
               </CardDescription>
             </CardHeader>
             <CardFooter class="justify-end">
-              <Button>
-                Create Disposable Statechain
-              </Button>
+              <Button @click="stateChain.initialize"> Create Disposable Statechain </Button>
             </CardFooter>
           </Card>
         </Transition>
