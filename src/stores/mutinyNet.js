@@ -45,7 +45,7 @@ export const useMutinyNet = defineStore('mutinyNet', () => {
       .then(console.log)
   }
 
-  return { balance, fetchBalance, getBlockHeight, tapFaucet }
+  return { balance, fetchBalance, getBlockHeight, tapFaucet, utxos }
 })
 
 export default useMutinyNet
