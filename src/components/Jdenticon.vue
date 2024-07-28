@@ -1,6 +1,6 @@
 <script setup>
 /* imports */
-import { computed, defineProps } from 'vue'
+import { computed } from 'vue'
 import { ref } from '@vue/reactivity'
 import { toSvg } from 'jdenticon'
 
