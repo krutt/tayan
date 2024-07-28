@@ -9,7 +9,7 @@ const props = defineProps({
   class: { type: null, required: false },
 })
 
-const { orientation, canAdd, scrollNext } = useCarousel()
+const { orientation, canAdd } = useCarousel()
 </script>
 
 <template>
