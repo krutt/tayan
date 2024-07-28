@@ -1,9 +1,10 @@
 <script setup>
 /* imports */
+import { storeToRefs } from 'pinia'
 import { useAlby } from '@/stores/alby'
 import { useMutinyNet } from '@/stores/mutinyNet'
 import { useStateChain } from '@/stores/stateChain'
-import { storeToRefs } from 'pinia'
+import { ref } from 'vue'
 
 /* components */
 import { Button } from '@/components/ui/button'
@@ -23,7 +24,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Jdenticon } from '@/components'
+import { Jdenticon, StateChain } from '@/components'
 import { Toaster } from '@/components/ui/sonner'
 
 /* vectors */
@@ -38,14 +39,27 @@ let stateChain = useStateChain()
 // refs
 let { address } = storeToRefs(alby)
 let { balance } = storeToRefs(mutinyNet)
+let nevents = ref([])
 let { nprofile } = storeToRefs(stateChain)
 
 // funcs
 let { connectWallet } = alby
 let { tapFaucet, fetchBalance } = mutinyNet
 
+let appendToWithdrawal = event => {
+  console.log(event)
+  nevents.value.push({ type: 'append' })
+}
+let commitState = event => {
+  console.log(event)
+  nevents.value.push({ type: 'commit' })
+}
 let openGithubRepository = () => {
   window.open('https://github.com/krutt/tayan.git', '_blank', 'noreferrer, noopener')
+}
+let unilaterallyExit = event => {
+  console.log(event)
+  nevents.value.push({ type: 'exit' })
 }
 </script>
 
@@ -122,7 +136,7 @@ let openGithubRepository = () => {
       </div>
       <div class="grid gap-4 py-4 col-span-3 lg:col-span-2">
         <Transition name="fade">
-          <Card v-if="address">
+          <Card v-if="address && !nprofile">
             <CardHeader>
               <CardTitle> Address </CardTitle>
               <CardDescription>
@@ -132,14 +146,14 @@ let openGithubRepository = () => {
             <CardContent class="break-all text-sm font-medium">
               {{ address }}
             </CardContent>
-            <CardFooter class="justify-between space-x-2">
+            <CardFooter class="justify-start">
               <Button @click="tapFaucet" class="cursor-pointer" variant="secondary">
                 Tap faucet
               </Button>
             </CardFooter>
           </Card>
         </Transition>
-        <Transition name="fade">
+        <Transition name="fade" v-if="!nprofile">
           <Card v-if="address">
             <CardHeader>
               <CardTitle> Statechain </CardTitle>
@@ -155,19 +169,19 @@ let openGithubRepository = () => {
                 profit open to personal discretion. May the odds be ever in your favour.
               </CardDescription>
             </CardHeader>
-            <Transition name="fade" v-if="nprofile">
-              <CardFooter class="justify-end">
-                <span>
-                  {{ nprofile }}
-                </span>
-              </CardFooter>
-            </Transition>
-            <Transition name="fade" v-else>
-              <CardFooter class="justify-end">
-                <Button @click="stateChain.initialize"> Create Disposable Statechain </Button>
-              </CardFooter>
-            </Transition>
+            <CardFooter class="justify-end">
+              <Button @click="stateChain.initialize"> Create Disposable Statechain </Button>
+            </CardFooter>
           </Card>
+        </Transition>
+        <Transition name="fade" v-if="nprofile">
+          <StateChain
+            :nprofile="nprofile"
+            :nevents="nevents"
+            @append-to-withdrawal="appendToWithdrawal"
+            @commit-state="commitState"
+            @unilaterally-exit="unilaterallyExit"
+          />
         </Transition>
       </div>
     </section>
