@@ -11,6 +11,7 @@ export const useMutinyNet = defineStore('mutinyNet', () => {
   let alby = useAlby()
   let { address } = storeToRefs(alby)
   let balance = ref(0)
+  let utxos = ref([])
 
   // funcs
   let fetchBalance = async () => {
@@ -18,10 +19,10 @@ export const useMutinyNet = defineStore('mutinyNet', () => {
       .catch(console.error)
       .then(async response => {
         if (!!response) {
-          let utxos = await response.json()
-          let confirmedUtxos = utxos.filter(utxo => utxo.status.confirmed)
-          if (confirmedUtxos.length == 0) return
-          balance.value = confirmedUtxos.reduce((accum, utxo) => accum + utxo.value, 0)
+          let data = await response.json()
+          utxos.value = utxos.filter(utxo => utxo.status.confirmed)
+          if (utxos.value.length == 0) return
+          balance.value = utxos.value.reduce((accum, utxo) => accum + utxo.value, 0)
         }
       })
   }
