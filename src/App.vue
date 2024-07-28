@@ -38,6 +38,7 @@ let stateChain = useStateChain()
 // refs
 let { address } = storeToRefs(alby)
 let { balance } = storeToRefs(mutinyNet)
+let { nprofile } = storeToRefs(stateChain)
 
 // funcs
 let { connectWallet } = alby
@@ -154,9 +155,18 @@ let openGithubRepository = () => {
                 profit open to personal discretion. May the odds be ever in your favour.
               </CardDescription>
             </CardHeader>
-            <CardFooter class="justify-end">
-              <Button @click="stateChain.initialize"> Create Disposable Statechain </Button>
-            </CardFooter>
+            <Transition name="fade" v-if="nprofile">
+              <CardFooter class="justify-end">
+                <span>
+                  {{ nprofile }}
+                </span>
+              </CardFooter>
+            </Transition>
+            <Transition name="fade" v-else>
+              <CardFooter class="justify-end">
+                <Button @click="stateChain.initialize"> Create Disposable Statechain </Button>
+              </CardFooter>
+            </Transition>
           </Card>
         </Transition>
       </div>
