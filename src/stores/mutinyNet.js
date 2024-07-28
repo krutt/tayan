@@ -8,8 +8,7 @@ import { useAlby } from '@/stores/alby'
 // store
 export const useMutinyNet = defineStore('mutinyNet', () => {
   // stores
-  let alby = useAlby()
-  let { address } = storeToRefs(alby)
+  let { address } = storeToRefs(useAlby())
   let balance = ref(0)
   let utxos = ref([])
 

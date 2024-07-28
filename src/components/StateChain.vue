@@ -1,7 +1,9 @@
 <!-- ~~/src/components/StateChain.vue -->
 <script setup>
 /* imports */
-import { ref, watchEffect } from 'vue'
+import { onMounted, ref, watchEffect } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useMutinyNet } from '@/stores/mutinyNet'
 
 /* components */
 import { Button } from '@/components/ui/button'
@@ -21,8 +23,20 @@ let props = defineProps({
   nprofile: String,
 })
 
+// stores
+let mutinyNet = useMutinyNet()
+
 // refs
-let count = ref(1)
+let utxos = storeToRefs(mutinyNet)
+
+// funcs
+const { fetchBalance } = mutinyNet
+
+// lifecycles
+onMounted(async () => {
+  await fetchBalance()
+  console.log(utxos.value)
+})
 </script>
 
 <template>
@@ -36,13 +50,12 @@ let count = ref(1)
     </CardHeader>
     <CardContent>
       <Carousel :opts="{ align: 'start' }" class="mr-20 relative w-auto">
-
         <CarouselContent>
-          <CarouselItem class="lg:basis-1/3" key="index" v-for="(_, index) in count">
+          <CarouselItem class="lg:basis-1/3" key="utxo.txid" v-for="(utxo, index) in utxos">
             <div class="p-1">
               <Card>
                 <CardContent class="flex aspect-square items-center justify-center p-6">
-                  <span class="text-3xl font-semibold">{{ index + 1 }}</span>
+                  <span class="text-3xl font-semibold">{{ utxo.txid }}</span>
                 </CardContent>
               </Card>
             </div>
