@@ -19,7 +19,6 @@ export const useStateChain = defineStore('stateChain', () => {
   let publicKey = ref('')
   let role = ref('operator')
 
-
   // funcs
   let fetchNProfile = () => {
     return localStorage.getItem('stateChainNProfile')
