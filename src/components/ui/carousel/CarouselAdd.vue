@@ -1,8 +1,8 @@
 <script setup>
-import { DiamondPlus } from 'lucide-vue-next'
-import { useCarousel } from './useCarousel'
-import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import { Plus } from 'lucide-vue-next'
+import { cn } from '@/lib/utils'
+import { useCarousel } from './useCarousel'
 
 defineEmits(['notifyAdd'])
 const props = defineProps({
@@ -28,7 +28,7 @@ const { orientation, canAdd } = useCarousel()
     @click="$emit('notifyAdd')"
   >
     <slot>
-      <DiamondPlus class="h-4 w-4 text-current" />
+      <Plus class="h-4 w-4 text-current" />
       <span class="sr-only">Add Item</span>
     </slot>
   </Button>
