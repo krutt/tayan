@@ -20,7 +20,7 @@ export const useMutinyNet = defineStore('mutinyNet', () => {
       .then(async response => {
         if (!!response) {
           let data = await response.json()
-          utxos.value = utxos.filter(utxo => utxo.status.confirmed)
+          utxos.value = data.filter(utxo => utxo.status.confirmed)
           if (utxos.value.length == 0) return
           balance.value = utxos.value.reduce((accum, utxo) => accum + utxo.value, 0)
         }
