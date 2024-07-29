@@ -38,6 +38,7 @@ let mutinyNet = useMutinyNet()
 
 // refs
 let { utxos } = storeToRefs(mutinyNet)
+let vtxos = ref([])
 
 // funcs
 let { fetchBalance } = mutinyNet
@@ -61,11 +62,11 @@ onMounted(async () => {
     <CardContent>
       <ResizablePanelGroup direction="horizontal">
         <ResizablePanel>
-          <Carousel :opts="{ align: 'start' }" class="mx-20 relative w-auto">
+          <Carousel :opts="{ align: 'start' }" class="min-w-96 mr-32 relative w-10/12">
             <CarouselContent>
               <CarouselItem
                 class="md:basis-1/2 lg:basis-1/3"
-                key="utxo.txid"
+                key="index"
                 v-for="(utxo, index) in utxos"
               >
                 <div class="p-1">
@@ -109,12 +110,12 @@ onMounted(async () => {
         </ResizablePanel>
         <ResizableHandle with-handle />
         <ResizablePanel>
-          <Carousel :opts="{ align: 'start' }" class="mx-20 relative w-auto">
+          <Carousel :opts="{ align: 'start' }" class="min-w-96 mr-32 relative w-10/12">
             <CarouselContent>
               <CarouselItem
                 class="md:basis-1/2 lg:basis-1/3"
-                key="utxo.txid"
-                v-for="(utxo, index) in utxos"
+                key="index"
+                v-for="(vtxo, index) in vtxos"
               >
                 <div class="p-1">
                   <Card class="max-w-60">
@@ -123,14 +124,14 @@ onMounted(async () => {
                     >
                       <BadgePercent :size="100" class="py-4" />
                       <span class="break-all font-semibold select-none text-md lg:text-xl">{{
-                        utxo.txid
+                        vtxo.txid
                       }}</span>
                     </CardContent>
                   </Card>
                 </div>
               </CarouselItem>
             </CarouselContent>
-            <CarouselAdd disabled="true" />
+            <CarouselAdd disabled="true" v-if="vtxos.length" />
           </Carousel>
         </ResizablePanel>
       </ResizablePanelGroup>
