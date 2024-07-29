@@ -17,6 +17,14 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Carousel, CarouselAdd, CarouselContent, CarouselItem } from '@/components/ui/carousel'
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuLabel,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
+} from '@/components/ui/context-menu'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 
 defineEmits(['appendToWithdrawal', 'commitState', 'unilateralExit'])
@@ -35,7 +43,10 @@ let { utxos } = storeToRefs(mutinyNet)
 let { fetchBalance } = mutinyNet
 
 // lifecycles
-onMounted(async () => await fetchBalance())
+onMounted(async () => {
+  await fetchBalance()
+  console.log(utxos.value)
+})
 </script>
 
 <template>
@@ -58,16 +69,38 @@ onMounted(async () => await fetchBalance())
                 v-for="(utxo, index) in utxos"
               >
                 <div class="p-1">
-                  <Card class="max-w-60">
-                    <CardContent
-                      class="flex flex-col aspect-square items-center justify-center p-6"
-                    >
-                      <Bitcoin :size="100" class="py-4" />
-                      <span class="break-all font-semibold select-none text-md lg:text-xl">{{
-                        utxo.txid
-                      }}</span>
-                    </CardContent>
-                  </Card>
+                  <ContextMenu>
+                    <ContextMenuTrigger>
+                      <Card class="max-w-60">
+                        <CardContent
+                          class="flex flex-col aspect-square items-center justify-center p-6"
+                        >
+                          <Bitcoin :size="100" class="py-4" />
+                          <span class="break-all font-semibold select-none text-md lg:text-xl">
+                            Amount:
+                            <br />
+                            {{ utxo.value }}
+                          </span>
+                        </CardContent>
+                      </Card>
+                    </ContextMenuTrigger>
+                    <ContextMenuContent class="w-64">
+                      <ContextMenuLabel class="font-semibold select-none">
+                        Block:&nbsp;
+                        {{ utxo.status.block_height }}
+                      </ContextMenuLabel>
+                      <ContextMenuLabel class="font-semibold select-none">
+                        Time:&nbsp;
+                        {{ new Date(utxo.status.block_time) }}
+                      </ContextMenuLabel>
+                      <ContextMenuLabel class="break-all font-semibold select-none">
+                        UXID:&nbsp;
+                        {{ utxo.txid }}
+                      </ContextMenuLabel>
+                      <ContextMenuSeparator />
+                      <ContextMenuItem inset> Deposit to Statechain </ContextMenuItem>
+                    </ContextMenuContent>
+                  </ContextMenu>
                 </div>
               </CarouselItem>
             </CarouselContent>
