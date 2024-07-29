@@ -56,12 +56,20 @@ onMounted(async () => {
         <ResizablePanel>
           <Carousel :opts="{ align: 'start' }" class="mx-20 relative w-auto">
             <CarouselContent>
-              <CarouselItem class="md:basis-1/2 lg:basis-1/3" key="utxo.txid" v-for="(utxo, index) in utxos">
+              <CarouselItem
+                class="md:basis-1/2 lg:basis-1/3"
+                key="utxo.txid"
+                v-for="(utxo, index) in utxos"
+              >
                 <div class="p-1">
                   <Card class="max-w-60">
-                    <CardContent class="flex flex-col aspect-square items-center justify-center p-6">
+                    <CardContent
+                      class="flex flex-col aspect-square items-center justify-center p-6"
+                    >
                       <Bitcoin :size="100" class="py-4" />
-                      <span class="break-all font-semibold select-none text-md lg:text-xl">{{ utxo.txid }}</span>
+                      <span class="break-all font-semibold select-none text-md lg:text-xl">{{
+                        utxo.txid
+                      }}</span>
                     </CardContent>
                   </Card>
                 </div>
@@ -74,12 +82,20 @@ onMounted(async () => {
         <ResizablePanel>
           <Carousel :opts="{ align: 'start' }" class="mx-20 relative w-auto">
             <CarouselContent>
-              <CarouselItem class="md:basis-1/2 lg:basis-1/3" key="utxo.txid" v-for="(utxo, index) in utxos">
+              <CarouselItem
+                class="md:basis-1/2 lg:basis-1/3"
+                key="utxo.txid"
+                v-for="(utxo, index) in utxos"
+              >
                 <div class="p-1">
                   <Card class="max-w-60">
-                    <CardContent class="flex flex-col aspect-square items-center justify-center p-6">
+                    <CardContent
+                      class="flex flex-col aspect-square items-center justify-center p-6"
+                    >
                       <BadgePercent :size="100" class="py-4" />
-                      <span class="break-all font-semibold select-none text-md lg:text-xl">{{ utxo.txid }}</span>
+                      <span class="break-all font-semibold select-none text-md lg:text-xl">{{
+                        utxo.txid
+                      }}</span>
                     </CardContent>
                   </Card>
                 </div>
@@ -87,7 +103,6 @@ onMounted(async () => {
             </CarouselContent>
             <CarouselAdd disabled="true" />
           </Carousel>
-
         </ResizablePanel>
       </ResizablePanelGroup>
     </CardContent>
