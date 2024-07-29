@@ -55,7 +55,8 @@ onMounted(async () => {
     <CardHeader>
       <CardTitle> Statechain </CardTitle>
       <CardDescription v-if="props.nprofile">
-        You are an operator to the Statechain
+        You are an operator to the Statechain. Right-click on any of your UTXO to deposit to the
+        Statechain.
       </CardDescription>
       <CardDescription v-else>
         You are a user to the Statechain. Right-click on any of your UTXO to deposit to the
@@ -65,7 +66,7 @@ onMounted(async () => {
     <CardContent>
       <ResizablePanelGroup direction="horizontal">
         <ResizablePanel>
-          <Carousel :opts="{ align: 'start' }" class="min-w-96 mr-32 relative w-10/12">
+          <Carousel :opts="{ align: 'start' }" class="min-w-96 mr-10 relative w-11/12">
             <CarouselContent>
               <CarouselItem
                 class="md:basis-1/2 lg:basis-1/3"
@@ -108,7 +109,6 @@ onMounted(async () => {
                 </div>
               </CarouselItem>
             </CarouselContent>
-            <CarouselAdd disabled="true" />
           </Carousel>
         </ResizablePanel>
         <ResizableHandle with-handle />
