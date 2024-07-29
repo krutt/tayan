@@ -178,9 +178,7 @@ watchEffect(() => {
               </CardDescription>
             </CardHeader>
             <CardFooter class="justify-end">
-              <Button
-                @click="stateChain.initialize"
-                ref="createStatechainButton">
+              <Button @click="stateChain.initialize" ref="createStatechainButton">
                 Create Disposable Statechain
               </Button>
             </CardFooter>
