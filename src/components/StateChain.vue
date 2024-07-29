@@ -6,7 +6,7 @@ import { storeToRefs } from 'pinia'
 import { useMutinyNet } from '@/stores/mutinyNet'
 
 /* components */
-import { Bitcoin } from 'lucide-vue-next'
+import { BadgePercent, Bitcoin } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -78,7 +78,7 @@ onMounted(async () => {
                 <div class="p-1">
                   <Card class="max-w-xs">
                     <CardContent class="flex flex-col aspect-square items-center justify-center p-6">
-                      <Bitcoin :size="100" class="py-4" />
+                      <BadgePercent :size="100" class="py-4" />
                       <span class="break-all font-semibold text-xl">{{ utxo.txid }}</span>
                     </CardContent>
                   </Card>
