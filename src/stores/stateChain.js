@@ -3,6 +3,7 @@
 // imports
 import { defineStore } from 'pinia'
 import { ref } from '@vue/reactivity'
+import { toast } from 'vue-sonner'
 import { useKeypair } from '@/composables/keypair'
 import { useNostr } from '@/composables/nostr'
 
@@ -41,6 +42,9 @@ export const useStateChain = defineStore('stateChain', () => {
     storeNProfile(nprofile)
     storePrivateKey(privateKey.value)
     storePublicKey(publicKey.value)
+    toast('Disposable statechain created', {
+      description: `Statechain created under nprofile:${nprofile.value.substring(0, 20)}…`,
+    })
   }
 
   let storeNProfile = value => {
