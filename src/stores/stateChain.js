@@ -36,7 +36,7 @@ export const useStateChain = defineStore('stateChain', () => {
   let initialize = () => {
     const { createNProfile } = useNostr()
     const { derivePublicKey, generatePrivateKey } = useKeypair()
-    privateKey.value = generatePrivateKey()
+    privateKey.value = fetchPrivateKey() || generatePrivateKey()
     publicKey.value = derivePublicKey(privateKey.value)
     nprofile.value = createNProfile('nprofile', publicKey.value, [relay])
     storeNProfile(nprofile)
