@@ -17,6 +17,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Carousel, CarouselAdd, CarouselContent, CarouselItem } from '@/components/ui/carousel'
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 
 defineEmits(['appendToWithdrawal', 'commitState', 'unilateralExit'])
 let props = defineProps({
@@ -51,21 +52,44 @@ onMounted(async () => {
       <CardDescription v-else> You are a user to the Statechain </CardDescription>
     </CardHeader>
     <CardContent>
-      <Carousel :opts="{ align: 'start' }" class="mr-20 relative w-auto">
-        <CarouselContent>
-          <CarouselItem class="lg:basis-1/3" key="utxo.txid" v-for="(utxo, index) in utxos">
-            <div class="p-1">
-              <Card class="max-w-xs">
-                <CardContent class="flex flex-col aspect-square items-center justify-center p-6">
-                  <Bitcoin :size="100" class="py-4" />
-                  <span class="break-all font-semibold text-xl">{{ utxo.txid }}</span>
-                </CardContent>
-              </Card>
-            </div>
-          </CarouselItem>
-        </CarouselContent>
-        <CarouselAdd disabled="true" />
-      </Carousel>
+      <ResizablePanelGroup direction="horizontal">
+        <ResizablePanel>
+          <Carousel :opts="{ align: 'start' }" class="mx-20 relative w-auto">
+            <CarouselContent>
+              <CarouselItem class="lg:basis-1/3" key="utxo.txid" v-for="(utxo, index) in utxos">
+                <div class="p-1">
+                  <Card class="max-w-xs">
+                    <CardContent class="flex flex-col aspect-square items-center justify-center p-6">
+                      <Bitcoin :size="100" class="py-4" />
+                      <span class="break-all font-semibold text-xl">{{ utxo.txid }}</span>
+                    </CardContent>
+                  </Card>
+                </div>
+              </CarouselItem>
+            </CarouselContent>
+            <CarouselAdd disabled="true" />
+          </Carousel>
+        </ResizablePanel>
+        <ResizableHandle with-handle />
+        <ResizablePanel>
+          <Carousel :opts="{ align: 'start' }" class="mx-20 relative w-auto">
+            <CarouselContent>
+              <CarouselItem class="lg:basis-1/3" key="utxo.txid" v-for="(utxo, index) in utxos">
+                <div class="p-1">
+                  <Card class="max-w-xs">
+                    <CardContent class="flex flex-col aspect-square items-center justify-center p-6">
+                      <Bitcoin :size="100" class="py-4" />
+                      <span class="break-all font-semibold text-xl">{{ utxo.txid }}</span>
+                    </CardContent>
+                  </Card>
+                </div>
+              </CarouselItem>
+            </CarouselContent>
+            <CarouselAdd disabled="true" />
+          </Carousel>
+
+        </ResizablePanel>
+      </ResizablePanelGroup>
     </CardContent>
     <CardFooter class="justify-between space-x-2">
       <Button @click="$emit('unilateralExit')" variant="outline"> One-sided withdraw </Button>
