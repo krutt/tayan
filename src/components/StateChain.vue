@@ -57,7 +57,10 @@ onMounted(async () => {
       <CardDescription v-if="props.nprofile">
         You are an operator to the Statechain
       </CardDescription>
-      <CardDescription v-else> You are a user to the Statechain </CardDescription>
+      <CardDescription v-else>
+        You are a user to the Statechain. Right-click on any of your UTXO to deposit to the
+        Statechain.
+      </CardDescription>
     </CardHeader>
     <CardContent>
       <ResizablePanelGroup direction="horizontal">
