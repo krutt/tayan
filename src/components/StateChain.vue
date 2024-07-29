@@ -61,7 +61,7 @@ onMounted(async () => {
                   <Card class="max-w-xs">
                     <CardContent class="flex flex-col aspect-square items-center justify-center p-6">
                       <Bitcoin :size="100" class="py-4" />
-                      <span class="break-all font-semibold text-xl">{{ utxo.txid }}</span>
+                      <span class="break-all font-semibold select-none text-xl">{{ utxo.txid }}</span>
                     </CardContent>
                   </Card>
                 </div>
@@ -79,7 +79,7 @@ onMounted(async () => {
                   <Card class="max-w-xs">
                     <CardContent class="flex flex-col aspect-square items-center justify-center p-6">
                       <BadgePercent :size="100" class="py-4" />
-                      <span class="break-all font-semibold text-xl">{{ utxo.txid }}</span>
+                      <span class="break-all font-semibold select-none text-xl">{{ utxo.txid }}</span>
                     </CardContent>
                   </Card>
                 </div>
