@@ -6,6 +6,7 @@ import { storeToRefs } from 'pinia'
 import { useMutinyNet } from '@/stores/mutinyNet'
 
 /* components */
+import { Bitcoin } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -27,13 +28,14 @@ let props = defineProps({
 let mutinyNet = useMutinyNet()
 
 // refs
-let utxos = storeToRefs(mutinyNet)
+let { utxos } = storeToRefs(mutinyNet)
 
 // funcs
-const { fetchBalance } = mutinyNet
+let { fetchBalance } = mutinyNet
 
 // lifecycles
 onMounted(async () => {
+  console.log(utxos.value)
   await fetchBalance()
   console.log(utxos.value)
 })
@@ -53,15 +55,16 @@ onMounted(async () => {
         <CarouselContent>
           <CarouselItem class="lg:basis-1/3" key="utxo.txid" v-for="(utxo, index) in utxos">
             <div class="p-1">
-              <Card>
-                <CardContent class="flex aspect-square items-center justify-center p-6">
-                  <span class="text-3xl font-semibold">{{ utxo.txid }}</span>
+              <Card class="max-w-xs">
+                <CardContent class="flex flex-col aspect-square items-center justify-center p-6">
+                  <Bitcoin :size="100" class="py-4" />
+                  <span class="break-all font-semibold text-xl">{{ utxo.txid }}</span>
                 </CardContent>
               </Card>
             </div>
           </CarouselItem>
         </CarouselContent>
-        <CarouselAdd @notify-add="count++" />
+        <CarouselAdd disabled="true" />
       </Carousel>
     </CardContent>
     <CardFooter class="justify-between space-x-2">
