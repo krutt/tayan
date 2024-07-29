@@ -47,18 +47,15 @@ let { connectWallet } = alby
 let { tapFaucet, fetchBalance } = mutinyNet
 
 let appendToWithdrawal = event => {
-  console.log(event)
   nevents.value.push({ type: 'append' })
 }
 let commitState = event => {
-  console.log(event)
   nevents.value.push({ type: 'commit' })
 }
 let openGithubRepository = () => {
   window.open('https://github.com/krutt/tayan.git', '_blank', 'noreferrer, noopener')
 }
 let unilaterallyExit = event => {
-  console.log(event)
   nevents.value.push({ type: 'exit' })
 }
 // lifecycles

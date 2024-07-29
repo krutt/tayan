@@ -35,11 +35,7 @@ let { utxos } = storeToRefs(mutinyNet)
 let { fetchBalance } = mutinyNet
 
 // lifecycles
-onMounted(async () => {
-  console.log(utxos.value)
-  await fetchBalance()
-  console.log(utxos.value)
-})
+onMounted(async () => await fetchBalance())
 </script>
 
 <template>
