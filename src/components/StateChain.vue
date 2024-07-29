@@ -96,7 +96,7 @@ onMounted(async () => {
                       </ContextMenuLabel>
                       <ContextMenuLabel class="font-semibold select-none">
                         Time:&nbsp;
-                        {{ new Date(utxo.status.block_time) }}
+                        {{ new Date(utxo.status.block_time * 1_000) }}
                       </ContextMenuLabel>
                       <ContextMenuLabel class="break-all font-semibold select-none">
                         UXID:&nbsp;
