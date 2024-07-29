@@ -4,6 +4,7 @@
 import { onMounted, ref, watchEffect } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useMutinyNet } from '@/stores/mutinyNet'
+import { useStateChain } from '@/stores/stateChain'
 
 /* components */
 import { BadgePercent, Bitcoin } from 'lucide-vue-next'
@@ -35,6 +36,7 @@ let props = defineProps({
 
 // stores
 let mutinyNet = useMutinyNet()
+let stateChain = useStateChain()
 
 // refs
 let { utxos } = storeToRefs(mutinyNet)
@@ -44,10 +46,7 @@ let vtxos = ref([])
 let { fetchBalance } = mutinyNet
 
 // lifecycles
-onMounted(async () => {
-  await fetchBalance()
-  console.log(utxos.value)
-})
+onMounted(async () => await fetchBalance())
 </script>
 
 <template>
@@ -103,7 +102,9 @@ onMounted(async () => {
                         {{ utxo.txid }}
                       </ContextMenuLabel>
                       <ContextMenuSeparator />
-                      <ContextMenuItem inset> Deposit to Statechain </ContextMenuItem>
+                      <ContextMenuItem @click="stateChain.deposit(utxo)" inset>
+                        Deposit to Statechain
+                      </ContextMenuItem>
                     </ContextMenuContent>
                   </ContextMenu>
                 </div>
