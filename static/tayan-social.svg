@@ -143,15 +143,30 @@
       in a world where copying and pasting are outlawed.
     </tspan>
   </text>
-  <rect
-    fill="#41B883"
-    filter='url(#dropShadowLite)'
-    height='18px'
-    rx='9px'
-    width='740px'
-    x='500px'
-    y='460px'
-    />
+  <g filter='url(#dropShadowLite)'>
+    <path
+      d="
+        M1060, 460
+        h-560
+        q-9,0 -9,9
+        q0,9 9,9
+        h560
+        z
+      "
+      fill="#41B883"
+      />
+    <path
+      d="
+        M1060, 460
+        h180
+        q9,0 9,9
+        q0,9 -9,9
+        h-180
+        z
+      "
+      fill="#F1E05A"
+      />
+  </g>
   <text
     font-family='Arial'
     font-size='30'
@@ -164,7 +179,22 @@
     <tspan
       fill='#888'
       >
-      100.0%
+      73%
+    </tspan>
+  </text>
+  <text
+    font-family='Arial'
+    font-size='30'
+    x='66rem'
+    y='520px'
+    >
+    <tspan>
+      JavaScript
+    </tspan>
+    <tspan
+      fill='#888'
+      >
+      27%
     </tspan>
   </text>
 </svg>
