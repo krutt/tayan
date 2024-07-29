@@ -4,7 +4,7 @@ import { storeToRefs } from 'pinia'
 import { useAlby } from '@/stores/alby'
 import { useMutinyNet } from '@/stores/mutinyNet'
 import { useStateChain } from '@/stores/stateChain'
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
 
 /* components */
 import { Button } from '@/components/ui/button'
@@ -61,6 +61,13 @@ let unilaterallyExit = event => {
   console.log(event)
   nevents.value.push({ type: 'exit' })
 }
+// lifecycles
+let createStatechainButton = ref(null)
+let connectButton = ref(null)
+watchEffect(() => {
+  if (!address.value && connectButton.value) connectButton.value.$el.focus()
+  else if (address.value && createStatechainButton.value) createStatechainButton.value.$el.focus()
+})
 </script>
 
 <template>
@@ -71,6 +78,7 @@ let unilaterallyExit = event => {
         <Button
           @click="connectWallet"
           class="cursor-pointer float-right md:w-1/4 w-1/2"
+          ref="connectButton"
           v-if="!address"
         >
           Connect Wallet
@@ -103,7 +111,7 @@ let unilaterallyExit = event => {
       </div>
     </div>
     <section class="container grid xl:grid-cols-3 place-items-center py-20 md:py-32 gap-10">
-      <div class="col-span-3 lg:col-span-1 space-y-6 text-center xl:text-start">
+      <div class="col-span-3 lg:col-span-1 space-y-6 text-center xl:text-start" v-if="!nprofile">
         <main class="text-5xl md:text-6xl font-bold">
           <h1 class="inline">
             <span
@@ -170,7 +178,11 @@ let unilaterallyExit = event => {
               </CardDescription>
             </CardHeader>
             <CardFooter class="justify-end">
-              <Button @click="stateChain.initialize"> Create Disposable Statechain </Button>
+              <Button
+                @click="stateChain.initialize"
+                ref="createStatechainButton">
+                Create Disposable Statechain
+              </Button>
             </CardFooter>
           </Card>
         </Transition>
