@@ -5,8 +5,8 @@ import { Address, Tap, Tx } from '@cmdcode/tapscript'
 import { defineStore, storeToRefs } from 'pinia'
 import { ref } from '@vue/reactivity'
 import { toast } from 'vue-sonner'
+import { useAlby } from '@/stores/alby'
 import { useKeypair } from '@/composables/keypair'
-import { useMutinyNet } from '@/stores/mutinyNet'
 import { useNostr } from '@/composables/nostr'
 
 // store
@@ -17,7 +17,7 @@ export const useStateChain = defineStore('stateChain', () => {
   const txfee = 500
 
   // refs
-  let { address } = storeToRefs(useMutinyNet())
+  let { address } = storeToRefs(useAlby())
   let coins = ref([])
   let nprofile = ref('')
   let privateKey = ref('')
