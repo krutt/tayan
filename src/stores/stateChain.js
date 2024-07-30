@@ -79,7 +79,7 @@ export const useStateChain = defineStore('stateChain', () => {
     for (let i = 0; i < multisigs.length; i++) {
       fundingTxData.vout.push({
         scriptPubKey: Address.toScriptPubKey(multisigs[i].multisig),
-        value: multisigs[i],
+        value: multisigs[i].amount,
       })
     }
     let fundingTxid = Tx.util.getTxid(fundingTxData)
