@@ -18,7 +18,7 @@
   * [![Firefox Logo](static/firefox.svg) Firefox](https://www.mozilla.org/en-US/firefox/new)
 * Alby - Bitcoin Lightning Wallet & Nostr <sup>[*]</sup> 
   * [![Chrome Logo](static/chrome.svg) Add extension to Chrome](https://chromewebstore.google.com/detail/alby-bitcoin-wallet-for-l/iokeahhehimjnekafflcihljlcjccdbe)
-  * [![Firefox Logo](static/firefox.svg) Add extension to Firefox](https://addons.mozilla.org/en-US/firefox/addon/alby/s)
+  * [![Firefox Logo](static/firefox.svg) Add extension to Firefox](https://addons.mozilla.org/en-US/firefox/addon/alby)
 
 ## Getting started
 
