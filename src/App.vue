@@ -68,11 +68,9 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="flex flex-col">
-    <div class="flex-1 space-y-4 p-8 pt-6">
-      <div
-        class="fixed inset-x-0 top-0 bg-white dark:bg-gray-950 z-[10] h-fit border-b border-slate-900 py-2"
-      >
+  <div class="bg-white dark:bg-gray-950 flex flex-col min-w-screen">
+    <div class="fixed flex-1 space-y-4 p-8 pt-6">
+      <div class="fixed inset-x-0 top-0 z-[10] h-fit border-b border-slate-900 py-2">
         <div class="flex items-center justify-between h-full gap-2 px-8 mx-auto max-w-7xl">
           <p
             class="rounded-lg border-2 border-b-4 border-r-4 border-black dark:text-white px-2 py-1 text-xl font-bold transition-all hover:-translate-y-[2px] md:block dark:border-white"
@@ -113,7 +111,7 @@ watchEffect(() => {
       </div>
     </div>
     <section
-      class="container bg-white dark:bg-gray-950 gap-10 grid h-screen md:py-32 place-items-center py-20 xl:grid-cols-3"
+      class="container gap-10 grid h-screen md:py-32 place-items-center py-20 xl:grid-cols-3"
     >
       <div class="col-span-3 lg:col-span-1 space-y-6 text-center xl:text-start" v-if="!nprofile">
         <main class="text-5xl md:text-6xl font-bold">
