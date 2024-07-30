@@ -24,7 +24,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Jdenticon, StateChain } from '@/components'
+import { Jdenticon, StateChain, ThemeToggle } from '@/components'
 import { Toaster } from '@/components/ui/sonner'
 
 /* vectors */
@@ -70,47 +70,54 @@ watchEffect(() => {
 <template>
   <div class="flex flex-col">
     <div class="flex-1 space-y-4 p-8 pt-6">
-      <div class="flex items-center justify-between space-y-2">
-        <h2 class="text-3xl font-bold tracking-tight">Tayan</h2>
-        <Button
-          @click="connectWallet"
-          class="cursor-pointer float-right md:w-1/4 w-1/2"
-          ref="connectButton"
-          v-if="!address"
-        >
-          Connect Wallet
-          <alby-bee class="h-6 inline ml-2 w-auto" />
-        </Button>
-        <span class="float-right" v-if="address">
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Jdenticon :address="address" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              @closeAutoFocus="void 0"
-              :collisionPadding="{ top: 32, right: 16 }"
-              side="left"
+      <div
+        class="fixed inset-x-0 top-0 bg-white dark:bg-gray-950 z-[10] h-fit border-b border-slate-900 py-2"
+      >
+        <div class="flex items-center justify-between h-full gap-2 px-8 mx-auto max-w-7xl">
+          <p
+            class="rounded-lg border-2 border-b-4 border-r-4 border-black dark:text-white px-2 py-1 text-xl font-bold transition-all hover:-translate-y-[2px] md:block dark:border-white"
+          >
+            Tayan
+          </p>
+          <div class="flex items-center">
+            <ThemeToggle class="mr-4" />
+            <Button
+              @click="connectWallet"
+              class="cursor-pointer float-right w-fit"
+              ref="connectButton"
+              v-if="!address"
             >
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                Balance:&nbsp;
-                {{ balance }}
-                &nbsp;₿
-              </DropdownMenuItem>
-              <DropdownMenuItem @click.capture.native.stop="fetchBalance">
-                Refresh balance
-              </DropdownMenuItem>
-              <DropdownMenuItem disabled="true"> Disconnect </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </span>
+              Connect Wallet
+              <AlbyBee class="h-6 inline ml-2 w-auto" />
+            </Button>
+            <DropdownMenu as-child v-else>
+              <DropdownMenuTrigger>
+                <Jdenticon :address="address" mode="light" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  Balance:&nbsp;
+                  {{ balance }}
+                  &nbsp;₿
+                </DropdownMenuItem>
+                <DropdownMenuItem @click.capture.native.stop="fetchBalance">
+                  Refresh balance
+                </DropdownMenuItem>
+                <DropdownMenuItem disabled="true"> Disconnect </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </div>
       </div>
     </div>
-    <section class="container grid xl:grid-cols-3 place-items-center py-20 md:py-32 gap-10">
+    <section
+      class="container bg-white dark:bg-gray-950 gap-10 grid h-screen md:py-32 place-items-center py-20 xl:grid-cols-3"
+    >
       <div class="col-span-3 lg:col-span-1 space-y-6 text-center xl:text-start" v-if="!nprofile">
         <main class="text-5xl md:text-6xl font-bold">
-          <h1 class="inline">
+          <h1 class="dark:text-white inline">
             <span
               class="inline bg-gradient-to-r from-[#FE7F2D] via-[#FF9900] to-[#FE7F2D] text-transparent bg-clip-text"
             >
@@ -118,7 +125,7 @@ watchEffect(() => {
             </span>
             locks Bitcoin UTXO
           </h1>
-          <h2 class="inline">
+          <h2 class="dark:text-white inline">
             for
             <span
               class="inline bg-gradient-to-r from-[#619B8A] via-[#A1C181] to-[#619B8A] text-transparent bg-clip-text"
@@ -131,7 +138,7 @@ watchEffect(() => {
         <div class="space-y-4 md:space-y-0 md:space-x-4">
           <Button
             @click="openGithubRepository"
-            class="cursor-pointer md:w-1/3 w-full"
+            class="cursor-pointer dark:text-white md:w-1/3 w-full"
             variant="outline"
           >
             Repository
