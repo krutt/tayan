@@ -17,7 +17,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Carousel, CarouselAdd, CarouselContent, CarouselItem } from '@/components/ui/carousel'
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
+import { CarouselAdd } from '@/components'
 import {
   ContextMenu,
   ContextMenuContent,

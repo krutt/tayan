@@ -2,14 +2,15 @@
 import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-vue-next'
 import { cn } from '@/lib/utils'
-import { useCarousel } from './useCarousel'
+import { ref } from 'vue'
+import { useCarousel } from '@/components/ui/carousel/useCarousel'
 
 defineEmits(['notifyAdd'])
 const props = defineProps({
   class: { type: null, required: false },
 })
-
-const { orientation, canAdd } = useCarousel()
+let canAdd = ref(true)
+const { orientation } = useCarousel()
 </script>
 
 <template>

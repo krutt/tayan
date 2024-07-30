@@ -19,7 +19,6 @@ const [useProvideCarousel, useInjectCarousel] = createInjectionState(
       emblaApi.value?.scrollNext()
     }
 
-    const canAdd = ref(true)
     const canScrollNext = ref(false)
     const canScrollPrev = ref(false)
 
@@ -41,7 +40,6 @@ const [useProvideCarousel, useInjectCarousel] = createInjectionState(
     return {
       carouselRef: emblaNode,
       carouselApi: emblaApi,
-      canAdd,
       canScrollPrev,
       canScrollNext,
       scrollPrev,
