@@ -1,6 +1,6 @@
 /* ~~/src/composables/keypair.js */
 
-import { ProjectivePoint, getPublicKey, utils } from '@noble/secp256k1'
+import { CURVE, ProjectivePoint, utils } from '@noble/secp256k1'
 import { useHexlify } from '@/composables/hexlify'
 const { randomPrivateKey } = utils
 const { bytesToHex } = useHexlify()
@@ -13,7 +13,22 @@ export const useKeypair = () => {
         .toHex(true)
     },
     generatePrivateKey: () => bytesToHex(randomPrivateKey()),
-    derivePublicKey: privateKey => getPublicKey(privateKey, true),
+    generatePrivateKeyAvoidingPrefix: prefix => {
+      while (true) {
+        let privateKey = bytesToHex(randomPrivateKey())
+        if (privateKey.startsWith(prefix)) continue
+        return privateKey
+      }
+    },
+    derivePublicKey: privateKey => ProjectivePoint.fromPrivateKey(privateKey, true).toHex(),
+    subtractTwoPrivateKeys: (firstPrivateKey, secondPrivateKey) => {
+      let comboKey = (
+        (BigInt('0x' + firstPrivateKey) - BigInt('0x' + secondPrivateKey)) %
+        CURVE.n
+      ).toString(16)
+      let padding = '0'.repeat(64)
+      return (padding + comboKey).slice(-64)
+    },
   }
 }
 

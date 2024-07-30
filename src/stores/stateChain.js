@@ -35,13 +35,12 @@ export const useStateChain = defineStore('stateChain', () => {
     const { combineTwoPublicKeys, derivePublicKey, generatePrivateKey } = useKeypair()
     for (let i = 0; i < 1; i++) {
       let multisigPrivkey = generatePrivateKey()
-      let multisigPubkey = derivePublicKey(multisigPrivkey)
+      let multisigPubkey = derivePublicKey(multisigPrivkey).substring(2)
       let multisigPubkeyWithParity = derivePublicKey(multisigPrivkey) // TODO: check if necessary
       let messageId = generatePrivateKey().substring(0, 32)
-      let aValue = '' // TODO: calculate by operator
-      let parityByte = '' // TODO: calculate by operator
+      let { aValue, coinId, parityByte } = makeCoin(messageId)
+      console.log(aValue, coinId, parityByte)
       let operatorMultisigPubkey = publicKey.value
-      let coinId = '' // TODO: calculate by operator
       // create multisig
       let script = [multisigPubkey, 'OP_CHECKSIGVERIFY', operatorMultisigPubkey, 'OP_CHECKSIG']
       let backupPubkey = combineTwoPublicKeys(
@@ -50,7 +49,7 @@ export const useStateChain = defineStore('stateChain', () => {
       ).substring(2)
       let tapTree = [Tap.encodeScript(script)]
       let [tpubkey] = Tap.getPubKey(backupPubkey, { tree: tapTree })
-      let multisig = Address.p2tr.fromPubkey(tpubkey, network)
+      let multisig = Address.p2tr.fromPubKey(tpubkey, network)
       multisigs.push({
         multisig,
         script,
@@ -71,7 +70,7 @@ export const useStateChain = defineStore('stateChain', () => {
           vout: utxo.vout,
           prevout: {
             value: utxo.value,
-            scriptPubKey: Address.toScriptPubKey(address),
+            scriptPubKey: Address.toScriptPubKey(address.value),
           },
         },
       ],
@@ -103,7 +102,7 @@ export const useStateChain = defineStore('stateChain', () => {
     const { createNProfile } = useNostr()
     const { derivePublicKey, generatePrivateKey } = useKeypair()
     privateKey.value = fetchPrivateKey() || generatePrivateKey()
-    publicKey.value = derivePublicKey(privateKey.value)
+    publicKey.value = derivePublicKey(privateKey.value).substring(2)
     nprofile.value = createNProfile('nprofile', publicKey.value, [relay])
     storeNProfile(nprofile)
     storePrivateKey(privateKey.value)
@@ -111,6 +110,25 @@ export const useStateChain = defineStore('stateChain', () => {
     toast('Disposable statechain created', {
       description: `Statechain created under nprofile:${nprofile.value.substring(0, 20)}…`,
     })
+  }
+
+  let makeCoin = messageId => {
+    const {
+      derivePublicKey,
+      generatePrivateKey,
+      generatePrivateKeyAvoidingPrefix,
+      subtractTwoPrivateKeys,
+    } = useKeypair()
+    let coinId = generatePrivateKey().substring(0, 32)
+    let privateKey = generatePrivateKeyAvoidingPrefix('00')
+    let publicKey = derivePublicKey(privateKey)
+    let parityByte = publicKey.substring(0, 2)
+    publicKey = publicKey.substring(2)
+    let aValue = generatePrivateKey().substring(0, 62)
+    let valueToKeep = subtractTwoPrivateKeys(privateKey, aValue)
+    privateKey = null
+    // TODO: save state
+    return { aValue, coinId, parityByte, publicKey }
   }
 
   let storeNProfile = value => {
