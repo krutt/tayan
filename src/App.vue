@@ -73,7 +73,7 @@ watchEffect(() => {
       <div class="fixed inset-x-0 top-0 z-[10] h-fit border-b border-slate-900 py-2">
         <div class="flex items-center justify-between h-full gap-2 px-8 mx-auto max-w-7xl">
           <p
-            class="rounded-lg border-2 border-b-4 border-r-4 border-black dark:text-white px-2 py-1 text-xl font-bold transition-all hover:-translate-y-[2px] md:block dark:border-white"
+            class="border-2 border-b-4 border-black border-r-4 dark:border-white dark:text-white font-bold hover:-translate-y-[2px] md:block select-none px-2 py-1 rounded-lg text-xl transition-all"
           >
             Tayan
           </p>
