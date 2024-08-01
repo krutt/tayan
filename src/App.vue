@@ -84,10 +84,12 @@ watchEffect(() => {
       <div class="fixed inset-x-0 top-0 z-[10] h-fit border-b border-slate-900 py-2">
         <div class="flex items-center justify-between h-full gap-2 px-8 mx-auto max-w-7xl">
           <p
-            class="border-b-4 border-black border-r-4 dark:border-white dark:text-white font-bold grid grid-cols-2 hover:-translate-y-[2px] items-center px-2 py-1 rounded-lg select-none text-xl transition-all"
+            class="border-b-4 border-black border-r-4 dark:border-white dark:text-white font-bold grid hover:-translate-y-[2px] items-center md:grid-cols-2 px-2 py-1 rounded-lg select-none text-xl transition-all"
           >
-            <KruttCrest class="float-left h-10 mr-2 w-auto" />
+            <KruttCrest class="float-left h-10 md:mr-2 w-auto" />
+            <span class="hidden md:block">
             Tayan
+            </span>
           </p>
           <div class="flex items-center">
             <ThemeToggle class="mr-4" />
