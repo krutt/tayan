@@ -17,6 +17,16 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@/components/ui/drawer'
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -144,6 +154,23 @@ watchEffect(() => {
             Repository
             <github-badge class="h-6 inline ml-2 w-auto" />
           </Button>
+
+          <Drawer class="md:w-1/3 w-full">
+            <DrawerTrigger class="dark:text-white">
+              <Button variant="link">Disclaimer </Button></DrawerTrigger
+            >
+            <DrawerContent>
+              <DrawerHeader>
+                <DrawerTitle>Pre-alpha software</DrawerTitle>
+                <DrawerDescription>Use at your own risk</DrawerDescription>
+              </DrawerHeader>
+              <DrawerFooter>
+                <DrawerClose>
+                  <Button variant="outline"> Close </Button>
+                </DrawerClose>
+              </DrawerFooter>
+            </DrawerContent>
+          </Drawer>
         </div>
       </div>
       <Transition name="fade">
