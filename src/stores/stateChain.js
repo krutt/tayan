@@ -9,12 +9,24 @@ import { useAlby } from '@/stores/alby'
 import { useKeypair } from '@/composables/keypair'
 import { useNostr } from '@/composables/nostr'
 
+
+const {
+  derivePublicKey,
+  generatePrivateKey,
+  generatePrivateKeyAvoidingPrefix,
+  subtractTwoPrivateKeys,
+} = useKeypair()
+
 // store
 export const useStateChain = defineStore('stateChain', () => {
   // consts
   const network = 'testnet'
   const relay = 'wss://nostrue.com'
   const txfee = 500
+
+  // state
+  let state = {}
+
 
   // refs
   let { address } = storeToRefs(useAlby())
@@ -23,6 +35,7 @@ export const useStateChain = defineStore('stateChain', () => {
   let privateKey = ref('')
   let publicKey = ref('')
   let role = ref('operator')
+  let userId = ref('')
 
   // funcs
   let deposit = utxo => {
@@ -39,6 +52,7 @@ export const useStateChain = defineStore('stateChain', () => {
       let multisigPubkeyWithParity = derivePublicKey(multisigPrivkey) // TODO: check if necessary
       let messageId = generatePrivateKey().substring(0, 32)
       let { aValue, coinId, parityByte } = makeCoin(messageId)
+      console.log(state)
       let operatorMultisigPubkey = publicKey.value
       // create multisig
       let script = [multisigPubkey, 'OP_CHECKSIGVERIFY', operatorMultisigPubkey, 'OP_CHECKSIG']
@@ -86,7 +100,7 @@ export const useStateChain = defineStore('stateChain', () => {
     // create vtxos
     for (let i = 0; i < 1; i++) {  // TODO: replace 1 with amount of vtxos to create
       let vtxo = {
-        stateId: '',  // TODO: that's the current state
+        stateId: userId.value,
         type: 'statecoin',
         operator: nprofile.value,
         operatorMultisigPubkey: multisigs[i].operatorMultisigPubkey,
@@ -108,6 +122,8 @@ export const useStateChain = defineStore('stateChain', () => {
     }
     let signature = Signer.taproot.sign(privateKey.value, fundingTxData, 0)
     fundingTxData.vin[0].witness = [signature]
+    let rawTransaction = Tx.encode(fundingTxData).hex
+    console.log(rawTransaction)
   }
 
   let fetchNProfile = () => {
@@ -131,28 +147,47 @@ export const useStateChain = defineStore('stateChain', () => {
     storeNProfile(nprofile)
     storePrivateKey(privateKey.value)
     storePublicKey(publicKey.value)
+    userId.value = makeUser()
     toast('Disposable statechain created', {
       description: `Statechain created under nprofile:${nprofile.value.substring(0, 20)}…`,
     })
   }
 
   let makeCoin = messageId => {
-    const {
-      derivePublicKey,
-      generatePrivateKey,
-      generatePrivateKeyAvoidingPrefix,
-      subtractTwoPrivateKeys,
-    } = useKeypair()
     let coinId = generatePrivateKey().substring(0, 32)
-    let privateKey = generatePrivateKeyAvoidingPrefix('00')
-    let publicKey = derivePublicKey(privateKey)
-    let parityByte = publicKey.substring(0, 2)
-    publicKey = publicKey.substring(2)
+    let privkey = generatePrivateKeyAvoidingPrefix('00')
+    let pubkey = derivePublicKey(privkey)
+    let parityByte = pubkey.substring(0, 2)
+    pubkey = pubkey.substring(2)
     let aValue = generatePrivateKey().substring(0, 62)
-    let valueToKeep = subtractTwoPrivateKeys(privateKey, aValue)
-    privateKey = null
-    // TODO: save state
-    return { aValue, coinId, parityByte, publicKey }
+    let valueToKeep = subtractTwoPrivateKeys(privkey, aValue)
+    privkey = null
+    // update state
+    state[userId.value]['vtxos'][coinId] = {
+      valueToKeep, numberOfTimesSigned: 0, parityByte, pubkey
+    }
+    // TODO: persist state
+    return { aValue, coinId, parityByte, pubkey }
+  }
+
+  let makeUser = () => {
+    let stateId = generatePrivateKey().substring(0, 32)
+    let receiverPrivateKey = generatePrivateKey()
+    let receiverPublicKey = derivePublicKey(receiverPrivateKey).substring(2)
+    let address = Address.fromScriptPubKey([1, receiverPublicKey], network)
+    // update state
+    state[stateId] = {
+      address,
+      receiverPrivateKey,
+      receiverPublicKey,
+      relay,
+      role: 'user',
+      trustedOperators: [],
+      utxos: {},
+      vtxos: {},
+    }
+    return stateId
+    // TODO: persist state
   }
 
   let storeNProfile = value => {

@@ -1,6 +1,5 @@
 <script setup>
 /* imports */
-import { Button } from '@/components/ui/button'
 import { Moon, Sun } from 'lucide-vue-next'
 import { useColorMode } from '@vueuse/core'
 

@@ -7,35 +7,7 @@ import { useStateChain } from '@/stores/stateChain'
 import { ref, watchEffect } from 'vue'
 
 /* components */
-import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from '@/components/ui/drawer'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import { Jdenticon, StateChain, ThemeToggle } from '@/components'
-import { Toaster } from '@/components/ui/sonner'
 
 /* vectors */
 import AlbyBee from '@/assets/alby.svg'
@@ -102,24 +74,24 @@ watchEffect(() => {
               Connect Wallet
               <AlbyBee class="h-6 inline ml-2 w-auto" />
             </Button>
-            <DropdownMenu as-child v-else>
-              <DropdownMenuTrigger>
+            <dropdown-menu as-child v-else>
+              <dropdown-menu-trigger>
                 <Jdenticon :address="address" mode="light" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
+              </dropdown-menu-trigger>
+              <dropdown-menu-content align="end">
+                <dropdown-menu-label>My Account</dropdown-menu-label>
+                <dropdown-menu-separator />
+                <dropdown-menu-item>
                   Balance:&nbsp;
                   {{ balance }}
                   &nbsp;₿
-                </DropdownMenuItem>
-                <DropdownMenuItem @click.capture.native.stop="fetchBalance">
+                </dropdown-menu-item>
+                <dropdown-menu-item @click.capture.native.stop="fetchBalance">
                   Refresh balance
-                </DropdownMenuItem>
-                <DropdownMenuItem disabled="true"> Disconnect </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                </dropdown-menu-item>
+                <dropdown-menu-item disabled="true"> Disconnect </dropdown-menu-item>
+              </dropdown-menu-content>
+            </dropdown-menu>
           </div>
         </div>
       </div>
@@ -157,49 +129,49 @@ watchEffect(() => {
             <github-badge class="h-6 inline ml-2 w-auto" />
           </Button>
 
-          <Drawer class="md:w-1/3 w-full">
-            <DrawerTrigger class="dark:text-white">
-              <Button variant="link">Disclaimer </Button></DrawerTrigger
-            >
-            <DrawerContent>
-              <DrawerHeader>
-                <DrawerTitle>Pre-alpha software</DrawerTitle>
-                <DrawerDescription>Use at your own risk</DrawerDescription>
-              </DrawerHeader>
-              <DrawerFooter>
-                <DrawerClose>
+          <drawer class="md:w-1/3 w-full">
+            <drawer-trigger class="dark:text-white">
+              <Button variant="link">Disclaimer </Button>
+            </drawer-trigger>
+            <drawer-content>
+              <drawer-header>
+                <drawer-title>Pre-alpha software</drawer-title>
+                <drawer-description>Use at your own risk</drawer-description>
+              </drawer-header>
+              <drawer-footer>
+                <drawer-close>
                   <Button variant="outline"> Close </Button>
-                </DrawerClose>
-              </DrawerFooter>
-            </DrawerContent>
-          </Drawer>
+                </drawer-close>
+              </drawer-footer>
+            </drawer-content>
+          </drawer>
         </div>
       </div>
       <Transition name="fade">
         <div class="grid gap-4 py-4 col-span-3 lg:col-span-2" v-if="!nprofile">
           <Transition name="fade">
-            <Card v-if="address">
-              <CardHeader>
-                <CardTitle> Address </CardTitle>
-                <CardDescription>
+            <card v-if="address">
+              <card-header>
+                <card-title> Address </card-title>
+                <card-description>
                   This is your Bitcoin Address currently selected and provided by Wallet Extension.
-                </CardDescription>
-              </CardHeader>
-              <CardContent class="break-all text-sm font-medium">
+                </card-description>
+              </card-header>
+              <card-content class="break-all text-sm font-medium">
                 {{ address }}
-              </CardContent>
-              <CardFooter class="justify-start">
+              </card-content>
+              <card-footer class="justify-start">
                 <Button @click="tapFaucet" class="cursor-pointer" variant="secondary">
                   Tap faucet
                 </Button>
-              </CardFooter>
-            </Card>
+              </card-footer>
+            </card>
           </Transition>
           <Transition name="fade">
-            <Card v-if="address">
-              <CardHeader>
-                <CardTitle> Statechain </CardTitle>
-                <CardDescription>
+            <card v-if="address">
+              <card-header>
+                <card-title> Statechain </card-title>
+                <card-description>
                   Statechains allow users to rapidly and cheaply transfer real bitcoins between each
                   other without relying on a network of payment channels. Double-spending prevention
                   is done by
@@ -209,14 +181,14 @@ watchEffect(() => {
                   to reduced security when compared to Bitcoin, Statechains are able to achieve many
                   feats and extensibilities which makes the risk and reward of using one for fun or
                   profit open to personal discretion. May the odds be ever in your favour.
-                </CardDescription>
-              </CardHeader>
-              <CardFooter class="justify-end">
+                </card-description>
+              </card-header>
+              <card-footer class="justify-end">
                 <Button @click="stateChain.initialize" ref="createStatechainButton">
                   Create Disposable Statechain
                 </Button>
-              </CardFooter>
-            </Card>
+              </card-footer>
+            </card>
           </Transition>
         </div>
       </Transition>
@@ -233,7 +205,7 @@ watchEffect(() => {
       </Transition>
     </section>
   </div>
-  <Toaster />
+  <toaster />
 </template>
 
 <style scoped>
