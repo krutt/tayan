@@ -44,10 +44,13 @@
   },
   "scripts": {
     "dev": "vite",
-    "fmt": "prettier --write src",
+    "fmt": "prettier --write src && prettier --write vite.config.js",
     "build": "vite build",
     "preview": "vite preview"
   },
   "type": "module",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "devDependencies": {
+    "unplugin-auto-import": "^0.18.2"
+  }
 }

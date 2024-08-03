@@ -1,11 +1,5 @@
 <!-- ~~/src/components/StateChain.vue -->
 <script setup>
-/* imports */
-import { onMounted, ref, watchEffect } from 'vue'
-import { storeToRefs } from 'pinia'
-import { useMutinyNet } from '@/stores/mutinyNet'
-import { useStateChain } from '@/stores/stateChain'
-
 /* components */
 import { BadgePercent, Bitcoin } from 'lucide-vue-next'
 

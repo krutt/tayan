@@ -9,7 +9,6 @@ import { useAlby } from '@/stores/alby'
 import { useKeypair } from '@/composables/keypair'
 import { useNostr } from '@/composables/nostr'
 
-
 const {
   derivePublicKey,
   generatePrivateKey,
@@ -26,7 +25,6 @@ export const useStateChain = defineStore('stateChain', () => {
 
   // state
   let state = {}
-
 
   // refs
   let { address } = storeToRefs(useAlby())
@@ -46,7 +44,8 @@ export const useStateChain = defineStore('stateChain', () => {
     // let multiplier = Math.floor(amount / 830)
     let multisigs = []
     const { combineTwoPublicKeys, derivePublicKey, generatePrivateKey } = useKeypair()
-    for (let i = 0; i < 1; i++) {  // TODO: replace 1 with amount of vtxos to create
+    for (let i = 0; i < 1; i++) {
+      // TODO: replace 1 with amount of vtxos to create
       let multisigPrivkey = generatePrivateKey()
       let multisigPubkey = derivePublicKey(multisigPrivkey).substring(2)
       let multisigPubkeyWithParity = derivePublicKey(multisigPrivkey) // TODO: check if necessary
@@ -98,7 +97,8 @@ export const useStateChain = defineStore('stateChain', () => {
     }
     let fundingTxid = Tx.util.getTxid(fundingTxData)
     // create vtxos
-    for (let i = 0; i < 1; i++) {  // TODO: replace 1 with amount of vtxos to create
+    for (let i = 0; i < 1; i++) {
+      // TODO: replace 1 with amount of vtxos to create
       let vtxo = {
         stateId: userId.value,
         type: 'statecoin',
@@ -115,9 +115,9 @@ export const useStateChain = defineStore('stateChain', () => {
         amount,
         multisig: multisigs[i].multisig,
         script: multisigs[i].script,
-        label: ''
+        label: '',
       }
-      let numberOfStatuses = 2  // TODO: depends on amount of vtxos to create, multiples of two
+      let numberOfStatuses = 2 // TODO: depends on amount of vtxos to create, multiples of two
       // receiveCoins([vtxo], i + 1, numberOfStatuses, true)
     }
     let signature = Signer.taproot.sign(privateKey.value, fundingTxData, 0)
@@ -164,7 +164,10 @@ export const useStateChain = defineStore('stateChain', () => {
     privkey = null
     // update state
     state[userId.value]['vtxos'][coinId] = {
-      valueToKeep, numberOfTimesSigned: 0, parityByte, pubkey
+      valueToKeep,
+      numberOfTimesSigned: 0,
+      parityByte,
+      pubkey,
     }
     // TODO: persist state
     return { aValue, coinId, parityByte, pubkey }

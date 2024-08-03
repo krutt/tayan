@@ -43,7 +43,7 @@ import { Toaster } from '@/components/ui/sonner'
 
 export const plugin = {
   install: app => {
-    app.component('Button', Button)  // keep uppercase to not conflict with built-in <button></button> tags
+    app.component('Button', Button) // keep uppercase to not conflict with built-in <button></button> tags
     app.component('card', Card)
     app.component('card-content', CardContent)
     app.component('card-description', CardDescription)

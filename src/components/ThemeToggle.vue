@@ -1,10 +1,9 @@
 <script setup>
-/* imports */
+/* vectors */
 import { Moon, Sun } from 'lucide-vue-next'
-import { useColorMode } from '@vueuse/core'
 
 /* composables */
-let theme = useColorMode({ disableTransition: true })
+let theme = useColorMode({ disableTransition: false })
 
 /* functions */
 let toggleTheme = () => (theme.value = theme.value !== 'dark' ? 'dark' : 'light')

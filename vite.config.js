@@ -1,4 +1,5 @@
 /* ~~/vite.config.js */
+import AutoImport from 'unplugin-auto-import/vite'
 import autoprefixer from 'autoprefixer'
 import { defineConfig } from 'vite'
 import path from 'path'
@@ -13,11 +14,25 @@ export default defineConfig({
       plugins: [tailwind(), autoprefixer()],
     },
   },
-  plugins: [svgLoader(), vue()],
+  plugins: [
+    AutoImport({
+      dirs: ['./src/composables', './src/stores'],
+      include: [/\.[tj]sx?$/, /\.vue$/, /\.vue\?vue/],
+      imports: [
+        {
+          '@vueuse/core': ['useColorMode'],
+        },
+        'pinia',
+        'vue',
+      ],
+    }),
+    svgLoader(),
+    vue(),
+  ],
   publicDir: path.resolve(__dirname, './static'),
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
     },
-  }
+  },
 })
