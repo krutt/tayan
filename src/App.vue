@@ -1,6 +1,6 @@
 <script setup>
 /* components */
-import { Jdenticon, StateChain, ThemeToggle } from '@/components'
+import { Jdenticon, StateChain, NetworkSelect, ThemeToggle } from '@/components'
 
 /* vectors */
 import AlbyBee from '@/assets/alby.svg'
@@ -66,6 +66,7 @@ watchEffect(() => {
               <AlbyBee class="h-6 inline ml-2 w-auto" />
             </Button>
             <dropdown-menu as-child v-else>
+              <NetworkSelect />
               <dropdown-menu-trigger>
                 <Jdenticon :address="address" mode="light" />
               </dropdown-menu-trigger>
