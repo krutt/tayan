@@ -1,7 +1,4 @@
 <script setup>
-/* imports */
-import { computed } from 'vue'
-import { ref } from '@vue/reactivity'
 import { toSvg } from 'jdenticon'
 
 let props = defineProps(['address'])
