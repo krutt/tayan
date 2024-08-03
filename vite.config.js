@@ -1,5 +1,5 @@
 /* ~~/vite.config.js */
-import AutoImport from 'unplugin-auto-import/vite'
+import autoImport from 'unplugin-auto-import/vite'
 import autoprefixer from 'autoprefixer'
 import { defineConfig } from 'vite'
 import path from 'path'
@@ -15,7 +15,7 @@ export default defineConfig({
     },
   },
   plugins: [
-    AutoImport({
+    autoImport({
       dirs: ['./src/composables', './src/stores'],
       include: [/\.[tj]sx?$/, /\.vue$/, /\.vue\?vue/],
       imports: [
