@@ -2,13 +2,6 @@
 
 // imports
 import { Address, Signer, Tap, Tx } from '@cmdcode/tapscript'
-import { defineStore, storeToRefs } from 'pinia'
-import { ref } from '@vue/reactivity'
-import { toast } from 'vue-sonner'
-import { useAlby } from '@/stores/alby'
-import { useKeypair } from '@/composables/keypair'
-import { useNostr } from '@/composables/nostr'
-
 const {
   derivePublicKey,
   generatePrivateKey,

@@ -24,6 +24,9 @@ export default defineConfig({
         },
         'pinia',
         'vue',
+        {
+          'vue-sonner': ['toast'],
+        },
       ],
     }),
     svgLoader(),

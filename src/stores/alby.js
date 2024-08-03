@@ -1,11 +1,5 @@
 /* ~~/src/stores/alby.js */
 
-// imports
-import { defineStore } from 'pinia'
-import { ref } from '@vue/reactivity'
-import { toast } from 'vue-sonner'
-
-// store
 export const useAlby = defineStore('alby', () => {
   // refs
   let address = ref('')

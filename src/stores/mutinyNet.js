@@ -1,11 +1,5 @@
 /* ~~/src/stores/mutinyNet.js */
 
-// imports
-import { defineStore, storeToRefs } from 'pinia'
-import { ref } from '@vue/reactivity'
-import { useAlby } from '@/stores/alby'
-
-// store
 export const useMutinyNet = defineStore('mutinyNet', () => {
   // stores
   let { address } = storeToRefs(useAlby())

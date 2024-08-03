@@ -2,7 +2,6 @@
 
 import { createCipheriv, createDeciperiv } from 'browserify-cipher'
 import { getSharedSecret } from '@nobleSecp256k1'
-import { useHexlify } from '@/composables/hexlify'
 
 export const useCipher = () => {
   return {

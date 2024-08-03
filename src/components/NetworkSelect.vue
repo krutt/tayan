@@ -1,7 +1,4 @@
 <script setup>
-/* imports */
-import { toast } from 'vue-sonner'
-
 /* vectors */
 import AesirCrest from '@/assets/aesir.svg'
 import BitcoinEmblem from '@/assets/bitcoin.svg'

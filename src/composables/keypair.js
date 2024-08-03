@@ -1,7 +1,6 @@
 /* ~~/src/composables/keypair.js */
 
 import { CURVE, ProjectivePoint, utils } from '@noble/secp256k1'
-import { useHexlify } from '@/composables/hexlify'
 const { randomPrivateKey } = utils
 const { bytesToHex } = useHexlify()
 

@@ -2,7 +2,6 @@
 
 // imports
 import { bech32 } from 'bech32'
-import { useHexlify } from '@/composables/hexlify'
 const { hexToBytes, textToHex } = useHexlify()
 
 export const useNostr = () => {
