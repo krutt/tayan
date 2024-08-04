@@ -46,7 +46,9 @@ watchEffect(() => {
 <template>
   <div class="bg-white dark:bg-gray-950 flex flex-col min-w-screen">
     <div class="fixed flex-1 space-y-4 p-8 pt-6">
-      <div class="bg-white dark:bg-gray-950 fixed inset-x-0 top-0 z-[10] h-fit border-b border-slate-900 py-2">
+      <div
+        class="bg-white dark:bg-gray-950 fixed inset-x-0 top-0 z-[10] h-fit border-b border-slate-900 py-2"
+      >
         <div class="flex items-center justify-between h-full gap-2 px-8 mx-auto max-w-7xl">
           <p
             class="border-b-4 border-black border-r-4 dark:border-white dark:text-white font-bold grid hover:-translate-y-[2px] items-center md:grid-cols-2 px-2 py-1 rounded-lg select-none text-xl transition-all"
@@ -72,7 +74,7 @@ watchEffect(() => {
       </div>
     </div>
     <section
-      class="container gap-10 grid h-screen md:py-32 place-items-center py-20 xl:grid-cols-3"
+      class="container gap-10 grid h-100 md:py-32 min-h-screen place-items-center py-20 xl:grid-cols-3"
     >
       <div class="col-span-3 lg:col-span-1 space-y-6 text-center xl:text-start" v-if="!nprofile">
         <main class="text-5xl md:text-6xl font-bold">
@@ -103,20 +105,21 @@ watchEffect(() => {
             Repository
             <github-badge class="h-6 inline ml-2 w-auto" />
           </Button>
-
           <drawer class="md:w-1/3 w-full">
             <drawer-trigger class="dark:text-white">
               <Button variant="link">Disclaimer </Button>
             </drawer-trigger>
-            <drawer-content>
-              <drawer-header>
+            <drawer-content class="flex items-center justify-center py-2 space-x-2">
+              <drawer-header class="dark:text-white">
                 <drawer-title>Pre-alpha software</drawer-title>
                 <drawer-description>Use at your own risk</drawer-description>
               </drawer-header>
               <drawer-footer>
-                <drawer-close>
-                  <Button variant="outline"> Close </Button>
-                </drawer-close>
+                  <drawer-close>
+                    <Button class="dark:border-white dark:text-white" variant="outline">
+                      Close
+                    </Button>
+                  </drawer-close>
               </drawer-footer>
             </drawer-content>
           </drawer>
