@@ -4,7 +4,7 @@ import AesirCrest from '@/assets/aesir.svg'
 import BitcoinEmblem from '@/assets/bitcoin.svg'
 import MutinyNet from '@/assets/mutiny-net.svg'
 
-defineEmits(['select-network'])
+let emit = defineEmits(['select-network'])
 let selectedNetwork = ref('signet')
 
 // funcs
@@ -15,11 +15,7 @@ let selectNetwork = network => {
 }
 
 // lifecycle hooks
-onMounted(async () => {
-  if (!!selectedChain.value) {
-    await selectNetwork(selectedChain.value)
-  }
-})
+onMounted(async () => !!selectedNetwork.value ? selectNetwork(selectedNetwork.value) : void 0)
 </script>
 <template>
   <div class="h-10 w-10 mr-5">
