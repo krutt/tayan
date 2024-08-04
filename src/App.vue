@@ -1,6 +1,6 @@
 <script setup>
 /* components */
-import { Jdenticon, StateChain, NetworkSelect, ThemeToggle } from '@/components'
+import { AccountInfo, StateChain, NetworkSelect, ThemeToggle } from '@/components'
 
 /* vectors */
 import AlbyBee from '@/assets/alby.svg'
@@ -20,7 +20,7 @@ let { nprofile } = storeToRefs(stateChain)
 
 // funcs
 let { connectWallet } = alby
-let { tapFaucet, fetchBalance } = mutinyNet
+let { tapFaucet } = mutinyNet
 
 let appendToWithdrawal = event => {
   nevents.value.push({ type: 'append' })
@@ -65,25 +65,8 @@ watchEffect(() => {
               Connect Wallet
               <AlbyBee class="h-6 inline ml-2 w-auto" />
             </Button>
-            <dropdown-menu as-child v-else>
-              <NetworkSelect />
-              <dropdown-menu-trigger>
-                <Jdenticon :address="address" mode="light" />
-              </dropdown-menu-trigger>
-              <dropdown-menu-content align="end">
-                <dropdown-menu-label>My Account</dropdown-menu-label>
-                <dropdown-menu-separator />
-                <dropdown-menu-item>
-                  Balance:&nbsp;
-                  {{ balance }}
-                  &nbsp;₿
-                </dropdown-menu-item>
-                <dropdown-menu-item @click.capture.native.stop="fetchBalance">
-                  Refresh balance
-                </dropdown-menu-item>
-                <dropdown-menu-item disabled="true"> Disconnect </dropdown-menu-item>
-              </dropdown-menu-content>
-            </dropdown-menu>
+            <NetworkSelect v-if="address"/>
+            <AccountInfo v-if="address"/>
           </div>
         </div>
       </div>
