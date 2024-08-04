@@ -24,3 +24,4 @@
 
 [![tayan walkthru](static/tayan.gif)](https://github.com/krutt/tayan/blob/master/static/tayan.gif)
 
+![Mutiny](src/assets/mutiny-net.svg)

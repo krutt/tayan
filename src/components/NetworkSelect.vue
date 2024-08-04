@@ -27,12 +27,12 @@ onMounted(async () => {
       <dropdown-menu-trigger
         class="active:ring-2 active:ring-indigo-500 active:ring-offset-2 active:ring-offset-gray-100 border-2 border-current min-h-full min-w-full mx-3 overflow-hidden rounded-full shadow-sm"
       >
-        <aesir-crest class="h-full w-full fill-current p-0.5" v-if="selectedNetwork == 'regtest'" />
+        <aesir-crest class="h-full w-full fill-current" v-if="selectedNetwork == 'regtest'" />
         <bitcoin-emblem
-          class="h-full w-full fill-current p-0.5"
+          class="h-full w-full fill-current"
           v-if="selectedNetwork == 'mainnet'"
         />
-        <mutiny-net class="h-full w-full fill-current p-0.5" v-if="selectedNetwork == 'signet'" />
+        <mutiny-net class="h-full w-full fill-current" v-if="selectedNetwork == 'signet'" />
       </dropdown-menu-trigger>
       <dropdown-menu-content align="end">
         <dropdown-menu-label>My Account</dropdown-menu-label>
