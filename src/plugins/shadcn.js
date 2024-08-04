@@ -49,6 +49,7 @@ export const plugin = {
     app.component('card-description', CardDescription)
     app.component('card-footer', CardFooter)
     app.component('card-header', CardHeader)
+    app.component('card-title', CardTitle)
     app.component('carousel', Carousel)
     app.component('carousel-add', CarouselAdd)
     app.component('carousel-content', CarouselContent)
