@@ -46,7 +46,7 @@ watchEffect(() => {
 <template>
   <div class="bg-white dark:bg-gray-950 flex flex-col min-w-screen">
     <div class="fixed flex-1 space-y-4 p-8 pt-6">
-      <div class="fixed inset-x-0 top-0 z-[10] h-fit border-b border-slate-900 py-2">
+      <div class="bg-white dark:bg-gray-950 fixed inset-x-0 top-0 z-[10] h-fit border-b border-slate-900 py-2">
         <div class="flex items-center justify-between h-full gap-2 px-8 mx-auto max-w-7xl">
           <p
             class="border-b-4 border-black border-r-4 dark:border-white dark:text-white font-bold grid hover:-translate-y-[2px] items-center md:grid-cols-2 px-2 py-1 rounded-lg select-none text-xl transition-all"
