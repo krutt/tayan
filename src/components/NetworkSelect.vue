@@ -30,7 +30,7 @@ onMounted(async () => (!!selectedNetwork.value ? selectNetwork(selectedNetwork.v
       <dropdown-menu-content align="end">
         <dropdown-menu-label>My Account</dropdown-menu-label>
         <dropdown-menu-separator />
-        <dropdown-menu-item @click.prevent="selectNetwork('mainnet')" disabled="true">
+        <dropdown-menu-item @click.prevent="selectNetwork('mainnet')" :disabled="true">
           <bitcoin-emblem class="h-8 w-8 mr-2" />
           Mainnet
         </dropdown-menu-item>
