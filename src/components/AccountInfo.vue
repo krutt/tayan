@@ -3,7 +3,9 @@
 import { Jdenticon } from '@/components'
 
 let { address } = storeToRefs(useAlby())
-let { fetchBalance } = useMutinyNet()
+let mutinyNet = useMutinyNet()
+let { balance } = storeToRefs(mutinyNet)
+let { fetchBalance } = mutinyNet
 </script>
 <template>
   <dropdown-menu as-child>

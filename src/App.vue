@@ -14,7 +14,6 @@ let stateChain = useStateChain()
 
 // refs
 let { address } = storeToRefs(alby)
-let { balance } = storeToRefs(mutinyNet)
 let nevents = ref([])
 let { nprofile } = storeToRefs(stateChain)
 
@@ -115,11 +114,11 @@ watchEffect(() => {
                 <drawer-description>Use at your own risk</drawer-description>
               </drawer-header>
               <drawer-footer>
-                  <drawer-close>
-                    <Button class="dark:border-white dark:text-white" variant="outline">
-                      Close
-                    </Button>
-                  </drawer-close>
+                <drawer-close>
+                  <Button class="dark:border-white dark:text-white" variant="outline">
+                    Close
+                  </Button>
+                </drawer-close>
               </drawer-footer>
             </drawer-content>
           </drawer>

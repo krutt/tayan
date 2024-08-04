@@ -15,7 +15,7 @@ let selectNetwork = network => {
 }
 
 // lifecycle hooks
-onMounted(async () => !!selectedNetwork.value ? selectNetwork(selectedNetwork.value) : void 0)
+onMounted(async () => (!!selectedNetwork.value ? selectNetwork(selectedNetwork.value) : void 0))
 </script>
 <template>
   <div class="h-10 w-10 mr-5">
