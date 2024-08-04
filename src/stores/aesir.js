@@ -28,8 +28,19 @@ export const useAesir = defineStore('aesir', () => {
       .then(async response => {
         if (!!response) {
           let { result } = await response.json()
-          utxos.value = result.unspents.filter(unspent => unspent.amount > 0)
-          if (utxos.value.length == 0) return
+          let unspents = result.unspents.filter(unspent => unspent.amount > 0)
+          if (unspents.length == 0) return
+          utxos.value = unspents.map(unspent => (
+            {
+              status: {
+                block_height: unspent.height,
+                block_time: 0,
+                txid: unspent.txid,
+              },
+              value: unspent.amount,
+              vout: unspent.vout,
+            })
+          )
           balance.value = result.total_amount
         }
       })
@@ -64,7 +75,7 @@ export const useAesir = defineStore('aesir', () => {
           jsonrpc: '1.0',
           id: 'tapFaucet',
           method: 'generatetoaddress',
-          params: [100, address.value],
+          params: [1, address.value],
         }
       ),
       credentials: 'same-origin',
