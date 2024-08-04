@@ -63,6 +63,7 @@ export const plugin = {
     app.component('drawer-close', DrawerClose)
     app.component('drawer-content', DrawerContent)
     app.component('drawer-description', DrawerDescription)
+    app.component('drawer-footer', DrawerFooter)
     app.component('drawer-header', DrawerHeader)
     app.component('drawer-title', DrawerTitle)
     app.component('drawer-trigger', DrawerTrigger)
