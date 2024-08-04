@@ -8,7 +8,11 @@ let { fetchBalance } = useMutinyNet()
 <template>
   <dropdown-menu as-child>
     <dropdown-menu-trigger>
-      <Jdenticon :address="address" mode="light" />
+      <Jdenticon
+        :address="address"
+        class="active:ring-2 active:ring-[#619B8A] active:ring-offset-2 active:ring-offset-[#A1C181] border-2 border-current rounded-full shadow-sm"
+        mode="light"
+      />
     </dropdown-menu-trigger>
     <dropdown-menu-content align="end">
       <dropdown-menu-label>My Account</dropdown-menu-label>

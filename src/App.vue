@@ -65,8 +65,8 @@ watchEffect(() => {
               Connect Wallet
               <AlbyBee class="h-6 inline ml-2 w-auto" />
             </Button>
-            <NetworkSelect v-if="address"/>
-            <AccountInfo v-if="address"/>
+            <NetworkSelect v-if="address" />
+            <AccountInfo v-if="address" />
           </div>
         </div>
       </div>
