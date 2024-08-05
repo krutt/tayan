@@ -14,7 +14,6 @@ export const useAesir = defineStore('aesir', () => {
         id: 'fetchBalance',
         method: 'scantxoutset',
         params: ['start', [`addr(${address.value})`]],
-
       }),
       credentials: 'same-origin',
       headers: {
@@ -30,17 +29,15 @@ export const useAesir = defineStore('aesir', () => {
           let { result } = await response.json()
           let unspents = result.unspents.filter(unspent => unspent.amount > 0)
           if (unspents.length == 0) return
-          utxos.value = unspents.map(unspent => (
-            {
-              status: {
-                block_height: unspent.height,
-                block_time: 0,
-                txid: unspent.txid,
-              },
-              value: unspent.amount,
-              vout: unspent.vout,
-            })
-          )
+          utxos.value = unspents.map(unspent => ({
+            status: {
+              block_height: unspent.height,
+              block_time: 0,
+              txid: unspent.txid,
+            },
+            value: unspent.amount,
+            vout: unspent.vout,
+          }))
           balance.value = result.total_amount
         }
       })
@@ -68,16 +65,37 @@ export const useAesir = defineStore('aesir', () => {
       })
   }
 
+  let pushTransaction = async rawTransaction => {
+    return await fetch('http://localhost:18443', {
+      body: JSON.stringify({
+        jsonrpc: '1.0',
+        id: 'pushTransaction',
+        method: 'sendrawtransaction',
+        params: [rawTransaction],
+      }),
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        Authorization: `Basic ${btoa(rpcAuth)}`,
+        'Content-Type': 'application/json;',
+      },
+      method: 'POST',
+    })
+      .catch(console.error)
+      .then(async response => {
+        let { result } = await response.json()
+        console.log(result)
+        return result
+      })
+  }
+
   let tapFaucet = async () => {
     await fetch('http://localhost:18443', {
-      body: JSON.stringify(
-        {
-          jsonrpc: '1.0',
-          id: 'tapFaucet',
-          method: 'generatetoaddress',
-          params: [1, address.value],
-        }
-      ),
+      body: JSON.stringify({
+        jsonrpc: '1.0',
+        id: 'tapFaucet',
+        method: 'generatetoaddress',
+        params: [1, address.value],
+      }),
       credentials: 'same-origin',
       headers: {
         'Access-Control-Allow-Origin': '*',
@@ -92,7 +110,7 @@ export const useAesir = defineStore('aesir', () => {
       })
   }
 
-  return { balance, fetchBalance, getBlockHeight, tapFaucet, utxos }
+  return { balance, fetchBalance, getBlockHeight, pushTransaction, tapFaucet, utxos }
 })
 
 export default useMutinyNet
