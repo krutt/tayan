@@ -113,4 +113,4 @@ export const useAesir = defineStore('aesir', () => {
   return { balance, fetchBalance, getBlockHeight, pushTransaction, tapFaucet, utxos }
 })
 
-export default useMutinyNet
+export default useAesir
