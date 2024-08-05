@@ -33,8 +33,8 @@ export const useAesir = defineStore('aesir', () => {
             status: {
               block_height: unspent.height,
               block_time: 0,
-              txid: unspent.txid,
             },
+            txid: unspent.txid,
             value: unspent.amount * 1e8,
             vout: unspent.vout,
           }))
