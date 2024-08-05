@@ -10,8 +10,8 @@ export const useAesir = defineStore('aesir', () => {
   let fetchBalance = async () => {
     await fetch('http://localhost:18443', {
       body: JSON.stringify({
-        jsonrpc: '1.0',
         id: 'fetchBalance',
+        jsonrpc: '1.0',
         method: 'scantxoutset',
         params: ['start', [`addr(${address.value})`]],
       }),
@@ -46,11 +46,12 @@ export const useAesir = defineStore('aesir', () => {
   let getBlockHeight = async () => {
     return await fetch('http://localhost:18443', {
       body: JSON.stringify({
-        jsonrpc: '1.0',
         id: 'getBlockHeight',
+        jsonrpc: '1.0',
         method: 'getblockchaininfo',
         params: [],
       }),
+      credentials: 'same-origin',
       headers: {
         'Access-Control-Allow-Origin': '*',
         Authorization: `Basic ${btoa(rpcAuth)}`,
@@ -68,8 +69,8 @@ export const useAesir = defineStore('aesir', () => {
   let pushTransaction = async rawTransaction => {
     return await fetch('http://localhost:18443', {
       body: JSON.stringify({
-        jsonrpc: '1.0',
         id: 'pushTransaction',
+        jsonrpc: '1.0',
         method: 'sendrawtransaction',
         params: [rawTransaction],
       }),
@@ -91,8 +92,8 @@ export const useAesir = defineStore('aesir', () => {
   let tapFaucet = async () => {
     await fetch('http://localhost:18443', {
       body: JSON.stringify({
-        jsonrpc: '1.0',
         id: 'tapFaucet',
+        jsonrpc: '1.0',
         method: 'generatetoaddress',
         params: [1, address.value],
       }),
