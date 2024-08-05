@@ -35,10 +35,10 @@ export const useAesir = defineStore('aesir', () => {
               block_time: 0,
               txid: unspent.txid,
             },
-            value: unspent.amount,
+            value: unspent.amount * 1e8,
             vout: unspent.vout,
           }))
-          balance.value = result.total_amount
+          balance.value = result.total_amount * 1e8
         }
       })
   }
