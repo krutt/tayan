@@ -83,7 +83,11 @@ export const useAesir = defineStore('aesir', () => {
     })
       .catch(console.error)
       .then(async response => {
-        let { result } = await response.json()
+        let { error, result } = await response.json()
+        if (!!error) {
+          console.error(error.code, error.message)
+          return
+        }
         console.log(result)
         return result
       })
