@@ -5,7 +5,7 @@ import BitcoinEmblem from '@/assets/bitcoin.svg'
 import MutinyNet from '@/assets/mutiny-net.svg'
 
 let emit = defineEmits(['select-network'])
-let selectedNetwork = ref('signet')
+let selectedNetwork = ref('regtest')
 
 // funcs
 let selectNetwork = network => {
@@ -34,7 +34,7 @@ onMounted(async () => (!!selectedNetwork.value ? selectNetwork(selectedNetwork.v
           <bitcoin-emblem class="h-8 w-8 mr-2" />
           Mainnet
         </dropdown-menu-item>
-        <dropdown-menu-item @click.prevent="selectNetwork('signet')">
+        <dropdown-menu-item @click.prevent="selectNetwork('signet')" :disabled="true">
           <mutiny-net class="h-8 w-8 mr-2" />
           Signet
         </dropdown-menu-item>

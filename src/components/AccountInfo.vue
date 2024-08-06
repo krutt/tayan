@@ -3,7 +3,7 @@
 import { Jdenticon } from '@/components'
 
 let { address } = storeToRefs(useAlby())
-let mutinyNet = useMutinyNet()
+let mutinyNet = useAesir()
 let { balance } = storeToRefs(mutinyNet)
 let { fetchBalance } = mutinyNet
 </script>

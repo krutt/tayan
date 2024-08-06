@@ -15,6 +15,7 @@ export const useStateChain = defineStore('stateChain', () => {
   const network = 'testnet'
   const relay = 'wss://nostrue.com'
   const txfee = 500
+  const { pushTransaction } = useAesir()
 
   // state
   let state = {}
@@ -29,7 +30,7 @@ export const useStateChain = defineStore('stateChain', () => {
   let userId = ref('')
 
   // funcs
-  let deposit = utxo => {
+  let deposit = async utxo => {
     let amount = utxo.value
     if (amount - txfee < 0) return
     amount -= txfee
@@ -117,6 +118,7 @@ export const useStateChain = defineStore('stateChain', () => {
     fundingTxData.vin[0].witness = [signature]
     let rawTransaction = Tx.encode(fundingTxData).hex
     console.log(rawTransaction)
+    await pushTransaction(rawTransaction)
   }
 
   let fetchNProfile = () => {

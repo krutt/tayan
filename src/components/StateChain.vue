@@ -10,7 +10,7 @@ let props = defineProps({
 })
 
 // stores
-let mutinyNet = useMutinyNet()
+let mutinyNet = useAesir()
 let stateChain = useStateChain()
 
 // refs

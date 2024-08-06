@@ -9,7 +9,7 @@ import GithubBadge from '@/assets/github.svg'
 
 // stores
 let alby = useAlby()
-let mutinyNet = useMutinyNet()
+let mutinyNet = useAesir()
 let stateChain = useStateChain()
 
 // refs
