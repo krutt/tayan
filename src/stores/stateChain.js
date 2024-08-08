@@ -3,11 +3,13 @@
 // imports
 import { Address, Signer, Tap, Tx } from '@cmdcode/tapscript'
 const {
+  combineTwoPublicKeys,
   derivePublicKey,
   generatePrivateKey,
   generatePrivateKeyAvoidingPrefix,
   subtractTwoPrivateKeys,
 } = useKeypair()
+const { createNProfile } = useNostr()
 
 // store
 export const useStateChain = defineStore('stateChain', () => {
@@ -37,7 +39,6 @@ export const useStateChain = defineStore('stateChain', () => {
 
     // let multiplier = Math.floor(amount / 830)
     let multisigs = []
-    const { combineTwoPublicKeys, derivePublicKey, generatePrivateKey } = useKeypair()
     for (let i = 0; i < 1; i++) {
       // TODO: replace 1 with amount of vtxos to create
       let multisigPrivkey = generatePrivateKey()
@@ -132,8 +133,6 @@ export const useStateChain = defineStore('stateChain', () => {
   }
 
   let initialize = () => {
-    const { createNProfile } = useNostr()
-    const { derivePublicKey, generatePrivateKey } = useKeypair()
     privateKey.value = fetchPrivateKey() || generatePrivateKey()
     publicKey.value = derivePublicKey(privateKey.value).substring(2)
     nprofile.value = createNProfile('nprofile', publicKey.value, [relay])
