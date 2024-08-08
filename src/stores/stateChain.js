@@ -45,7 +45,6 @@ export const useStateChain = defineStore('stateChain', () => {
       let multisigPubkeyWithParity = derivePublicKey(multisigPrivkey) // TODO: check if necessary
       let messageId = generatePrivateKey().substring(0, 32)
       let { aValue, coinId, parityByte } = makeCoin(messageId)
-      console.log(state)
       let operatorMultisigPubkey = publicKey.value
       // create multisig
       let script = [multisigPubkey, 'OP_CHECKSIGVERIFY', operatorMultisigPubkey, 'OP_CHECKSIG']
@@ -117,7 +116,6 @@ export const useStateChain = defineStore('stateChain', () => {
     let signature = Signer.taproot.sign(privateKey.value, fundingTxData, 0)
     fundingTxData.vin[0].witness = [signature]
     let rawTransaction = Tx.encode(fundingTxData).hex
-    console.log(rawTransaction)
     await pushTransaction(rawTransaction)
   }
 
