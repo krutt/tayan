@@ -139,7 +139,7 @@ watchEffect(() => {
                 {{ userAddress }}
               </card-content>
               <card-footer class="justify-start">
-                <Button @click="tapFaucet" class="cursor-pointer" variant="secondary">
+                <Button @click="tapFaucet(userAddress)" class="cursor-pointer" variant="secondary">
                   Tap faucet
                 </Button>
               </card-footer>

@@ -1,28 +1,30 @@
 <!-- ~~/src/components/StateChain.vue -->
+
 <script setup>
 /* components */
 import { BadgePercent, Bitcoin } from 'lucide-vue-next'
 
+/* composables */
+let { fetchUtxos } = useAesir()
+
+/* emits & props */
 defineEmits(['appendToWithdrawal', 'commitState', 'unilateralExit'])
 let props = defineProps({
   nevents: Array,
   nprofile: String,
 })
 
-// stores
-let mutinyNet = useAesir()
+/* stores */
 let stateChain = useStateChain()
+let userAddress = storeToRefs(useAlby()).address
 
-// refs
-let { utxos } = storeToRefs(mutinyNet)
-let mutxos = ref([])
+/* refs */
+let utxos = ref([])
+let sutxos = ref([])
 let vtxos = ref([])
 
-// funcs
-let { fetchBalance } = mutinyNet
-
-// lifecycles
-onMounted(async () => await fetchBalance())
+/* lifecycles */
+onMounted(async () => (utxos.value = await fetchUtxos(userAddress.value)))
 </script>
 
 <template>
@@ -40,6 +42,9 @@ onMounted(async () => await fetchBalance())
           You are a user to the Statechain. Right-click on any of your UTXO to deposit to the
           Statechain.
         </span>
+        <Button @click="tapFaucet" variant="link"
+          >Tap faucet to give starting fund to the Statechain.</Button
+        >
       </card-description>
     </card-header>
     <card-content>
@@ -50,7 +55,7 @@ onMounted(async () => await fetchBalance())
               <carousel-item
                 class="md:basis-1/2 lg:basis-1/3"
                 key="index"
-                v-for="(utxo, index) in mutxos"
+                v-for="(utxo, index) in sutxos"
               >
                 <div class="p-1">
                   <context-menu>

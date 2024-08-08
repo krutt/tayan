@@ -3,9 +3,10 @@
 import { Jdenticon } from '@/components'
 
 let { address } = storeToRefs(useAlby())
-let mutinyNet = useAesir()
-let { balance } = storeToRefs(mutinyNet)
-let { fetchBalance } = mutinyNet
+let balance = ref(0)
+let { fetchBalance } = useAesir()
+
+onMounted(async () => (balance.value = await fetchBalance(address.value)))
 </script>
 <template>
   <dropdown-menu as-child>
@@ -24,7 +25,9 @@ let { fetchBalance } = mutinyNet
         {{ balance }}
         &nbsp;₿
       </dropdown-menu-item>
-      <dropdown-menu-item @click.capture.native.stop="fetchBalance">
+      <dropdown-menu-item
+        @click.capture.native.stop="async () => (balance = await fetchBalance(address))"
+      >
         Refresh balance
       </dropdown-menu-item>
       <dropdown-menu-item disabled="true"> Disconnect </dropdown-menu-item>
