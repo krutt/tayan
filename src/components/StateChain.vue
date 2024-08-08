@@ -30,12 +30,15 @@ onMounted(async () => await fetchBalance())
     <card-header>
       <card-title> Statechain </card-title>
       <card-description v-if="props.nprofile">
-        You are an operator to the Statechain. Right-click on any of your UTXO to deposit to the
-        Statechain.
-      </card-description>
-      <card-description v-else>
-        You are a user to the Statechain. Right-click on any of your UTXO to deposit to the
-        Statechain.
+        The deposit address for the Statechain is {{ stateChain.address }}
+        <span v-if="props.nprofile">
+          You are an operator to the Statechain. Right-click on any of your UTXO to deposit to the
+          Statechain.
+        </span>
+        <span v-else>
+          You are a user to the Statechain. Right-click on any of your UTXO to deposit to the
+          Statechain.
+        </span>
       </card-description>
     </card-header>
     <card-content>
@@ -126,9 +129,7 @@ onMounted(async () => await fetchBalance())
         </drawer-trigger>
         <drawer-content class="flex items-center justify-center py-2 space-x-2">
           <drawer-header class="dark:text-white">
-            <drawer-title>
-              Select which UTXO to deposit to Statechain
-            </drawer-title>
+            <drawer-title> Select which UTXO to deposit to Statechain </drawer-title>
             <drawer-description>
               Right-click and select deposit to statechain when ready.
             </drawer-description>

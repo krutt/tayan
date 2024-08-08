@@ -14,7 +14,7 @@ const { createNProfile } = useNostr()
 // store
 export const useStateChain = defineStore('stateChain', () => {
   // consts
-  const network = 'testnet'
+  const network = 'regtest'
   const relay = 'wss://nostrue.com'
   const txfee = 500
   const { pushTransaction } = useAesir()
@@ -23,6 +23,7 @@ export const useStateChain = defineStore('stateChain', () => {
   let state = {}
 
   // refs
+  let address = ref('')
   let coins = ref([])
   let nprofile = ref('')
   let privateKey = ref('')
@@ -32,9 +33,7 @@ export const useStateChain = defineStore('stateChain', () => {
   let userAddress = storeToRefs(useAlby()).address
 
   // funcs
-  let deposit = async utxo => {
-
-  }
+  let deposit = async utxo => {}
 
   let depositToStatechain = async utxo => {
     let amount = utxo.value
@@ -139,6 +138,7 @@ export const useStateChain = defineStore('stateChain', () => {
   let initialize = () => {
     privateKey.value = fetchPrivateKey() || generatePrivateKey()
     publicKey.value = derivePublicKey(privateKey.value).substring(2)
+    address.value = Address.fromScriptPubKey([1, privateKey.value], network)
     nprofile.value = createNProfile('nprofile', publicKey.value, [relay])
     storeNProfile(nprofile)
     storePrivateKey(privateKey.value)
@@ -202,6 +202,7 @@ export const useStateChain = defineStore('stateChain', () => {
   }
 
   return {
+    address,
     deposit,
     depositToStatechain,
     fetchNProfile,
