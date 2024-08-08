@@ -15,7 +15,6 @@ let stateChain = useStateChain()
 // refs
 let userAddress = storeToRefs(alby).address
 let nevents = ref([])
-let { nprofile } = storeToRefs(stateChain)
 
 // funcs
 let { connectWallet } = alby
@@ -76,7 +75,7 @@ watchEffect(() => {
     <section
       class="container gap-10 grid h-100 md:py-32 min-h-screen place-items-center py-20 xl:grid-cols-3"
     >
-      <div class="col-span-3 lg:col-span-1 space-y-6 text-center xl:text-start" v-if="!nprofile">
+      <div class="col-span-3 lg:col-span-1 space-y-6 text-center xl:text-start" v-if="!stateChain.address">
         <main class="text-5xl md:text-6xl font-bold">
           <h1 class="dark:text-white inline">
             <span
@@ -126,7 +125,7 @@ watchEffect(() => {
         </div>
       </div>
       <Transition name="fade">
-        <div class="grid gap-4 py-4 col-span-3 lg:col-span-2" v-if="!nprofile">
+        <div class="grid gap-4 py-4 col-span-3 lg:col-span-2" v-if="!stateChain.address">
           <Transition name="fade">
             <card v-if="userAddress">
               <card-header>
@@ -170,10 +169,11 @@ watchEffect(() => {
           </Transition>
         </div>
       </Transition>
-      <Transition name="fade" v-if="nprofile">
+      <Transition name="fade" v-if="stateChain.address">
         <div class="grid gap-4 py-4 col-span-3">
           <StateChain
-            :nprofile="nprofile"
+            :address="stateChain.address"
+            :nprofile="stateChain.nprofile"
             :nevents="nevents"
             @append-to-withdrawal="appendToWithdrawal"
             @commit-state="commitState"

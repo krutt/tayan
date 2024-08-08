@@ -5,11 +5,12 @@
 import { BadgePercent, Bitcoin } from 'lucide-vue-next'
 
 /* composables */
-let { fetchUtxos } = useAesir()
+let { fetchUtxos, tapFaucet } = useAesir()
 
 /* emits & props */
 defineEmits(['appendToWithdrawal', 'commitState', 'unilateralExit'])
 let props = defineProps({
+  address: String,
   nevents: Array,
   nprofile: String,
 })
@@ -25,16 +26,22 @@ let vtxos = ref([])
 
 /* lifecycles */
 onMounted(async () => (utxos.value = await fetchUtxos(userAddress.value)))
+
+/* functions */
+let tapFaucetAndUpdateUtxos = async () => {
+  await tapFaucet(props.address)
+  sutxos.value = await fetchUtxos(props.address)
+}
 </script>
 
 <template>
   <card>
     <card-header>
       <card-title> Statechain </card-title>
-      <card-description v-if="props.nprofile">
+      <card-description v-if="props.address">
         The deposit address for the Statechain is {{ stateChain.address }}
         <br />
-        <span v-if="props.nprofile">
+        <span v-if="props.address">
           You are an operator to the Statechain. Right-click on any of your UTXO to deposit to the
           Statechain.
         </span>
@@ -42,7 +49,7 @@ onMounted(async () => (utxos.value = await fetchUtxos(userAddress.value)))
           You are a user to the Statechain. Right-click on any of your UTXO to deposit to the
           Statechain.
         </span>
-        <Button @click="tapFaucet" variant="link"
+        <Button @click="tapFaucetAndUpdateUtxos" variant="link"
           >Tap faucet to give starting fund to the Statechain.</Button
         >
       </card-description>
