@@ -33,6 +33,10 @@ export const useStateChain = defineStore('stateChain', () => {
 
   // funcs
   let deposit = async utxo => {
+
+  }
+
+  let depositToStatechain = async utxo => {
     let amount = utxo.value
     if (amount - txfee < 0) return
     amount -= txfee
@@ -199,6 +203,7 @@ export const useStateChain = defineStore('stateChain', () => {
 
   return {
     deposit,
+    depositToStatechain,
     fetchNProfile,
     fetchPrivateKey,
     fetchPublicKey,

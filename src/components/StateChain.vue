@@ -78,7 +78,7 @@ onMounted(async () => await fetchBalance())
                         {{ utxo.txid }}
                       </context-menu-label>
                       <context-menu-separator />
-                      <context-menu-item @click="stateChain.deposit(utxo)" inset>
+                      <context-menu-item @click="stateChain.depositToStatechain(utxo)" inset>
                         Deposit to Statechain
                       </context-menu-item>
                     </context-menu-content>
