@@ -13,7 +13,7 @@ let mutinyNet = useAesir()
 let stateChain = useStateChain()
 
 // refs
-let { address } = storeToRefs(alby)
+let userAddress = storeToRefs(alby).address
 let nevents = ref([])
 let { nprofile } = storeToRefs(stateChain)
 
@@ -37,8 +37,9 @@ let unilaterallyExit = event => {
 let createStatechainButton = ref(null)
 let connectButton = ref(null)
 watchEffect(() => {
-  if (!address.value && connectButton.value) connectButton.value.$el.focus()
-  else if (address.value && createStatechainButton.value) createStatechainButton.value.$el.focus()
+  if (!userAddress.value && connectButton.value) connectButton.value.$el.focus()
+  else if (userAddress.value && createStatechainButton.value)
+    createStatechainButton.value.$el.focus()
 })
 </script>
 
@@ -61,13 +62,13 @@ watchEffect(() => {
               @click="connectWallet"
               class="cursor-pointer float-right w-fit"
               ref="connectButton"
-              v-if="!address"
+              v-if="!userAddress"
             >
               Connect Wallet
               <AlbyBee class="h-6 inline ml-2 w-auto" />
             </Button>
-            <NetworkSelect v-if="address" />
-            <AccountInfo v-if="address" />
+            <NetworkSelect v-if="userAddress" />
+            <AccountInfo v-if="userAddress" />
           </div>
         </div>
       </div>
@@ -127,7 +128,7 @@ watchEffect(() => {
       <Transition name="fade">
         <div class="grid gap-4 py-4 col-span-3 lg:col-span-2" v-if="!nprofile">
           <Transition name="fade">
-            <card v-if="address">
+            <card v-if="userAddress">
               <card-header>
                 <card-title> Address </card-title>
                 <card-description>
@@ -135,7 +136,7 @@ watchEffect(() => {
                 </card-description>
               </card-header>
               <card-content class="break-all text-sm font-medium">
-                {{ address }}
+                {{ userAddress }}
               </card-content>
               <card-footer class="justify-start">
                 <Button @click="tapFaucet" class="cursor-pointer" variant="secondary">
@@ -145,7 +146,7 @@ watchEffect(() => {
             </card>
           </Transition>
           <Transition name="fade">
-            <card v-if="address">
+            <card v-if="userAddress">
               <card-header>
                 <card-title> Statechain </card-title>
                 <card-description>
