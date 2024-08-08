@@ -21,13 +21,13 @@ export const useStateChain = defineStore('stateChain', () => {
   let state = {}
 
   // refs
-  let { address } = storeToRefs(useAlby())
   let coins = ref([])
   let nprofile = ref('')
   let privateKey = ref('')
   let publicKey = ref('')
   let role = ref('operator')
   let userId = ref('')
+  let userAddress = storeToRefs(useAlby()).address
 
   // funcs
   let deposit = async utxo => {
@@ -76,7 +76,7 @@ export const useStateChain = defineStore('stateChain', () => {
           vout: utxo.vout,
           prevout: {
             value: utxo.value,
-            scriptPubKey: Address.toScriptPubKey(address.value),
+            scriptPubKey: Address.toScriptPubKey(userAddress.value),
           },
         },
       ],
