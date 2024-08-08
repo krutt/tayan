@@ -31,6 +31,7 @@ onMounted(async () => await fetchBalance())
       <card-title> Statechain </card-title>
       <card-description v-if="props.nprofile">
         The deposit address for the Statechain is {{ stateChain.address }}
+        <br />
         <span v-if="props.nprofile">
           You are an operator to the Statechain. Right-click on any of your UTXO to deposit to the
           Statechain.
