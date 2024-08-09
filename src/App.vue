@@ -75,7 +75,10 @@ watchEffect(() => {
     <section
       class="container gap-10 grid h-100 md:py-32 min-h-screen place-items-center py-20 xl:grid-cols-3"
     >
-      <div class="col-span-3 lg:col-span-1 space-y-6 text-center xl:text-start" v-if="!stateChain.address">
+      <div
+        class="col-span-3 lg:col-span-1 space-y-6 text-center xl:text-start"
+        v-if="!stateChain.address"
+      >
         <main class="text-5xl md:text-6xl font-bold">
           <h1 class="dark:text-white inline">
             <span
