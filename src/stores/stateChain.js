@@ -11,18 +11,16 @@ const {
 } = useKeypair()
 const { createNProfile } = useNostr()
 
-// store
 export const useStateChain = defineStore('stateChain', () => {
-  // consts
   const network = 'regtest'
   const relay = 'wss://nostrue.com'
   const txfee = 500
   const { pushTransaction } = useAesir()
 
-  // state
+  /* state */
   let state = {}
 
-  // refs
+  /* refs */
   let address = ref('')
   let coins = ref([])
   let nprofile = ref('')
@@ -31,17 +29,18 @@ export const useStateChain = defineStore('stateChain', () => {
   let role = ref('operator')
   let userId = ref('')
 
-  // funcs
-  let deposit = async utxo => {}
-
-  let depositToStatechain = async utxo => {
+  /* functions */
+  let deposit = async utxo => {
     let amount = utxo.value
     if (amount - txfee < 0) return
     amount -= txfee
 
-    // let multiplier = Math.floor(amount / 830)
+    let divisor = 3  // TODO: allow customization
+    let quotient = Math.floor(amount / divisor)
+    let glutton = quotient + (amount % divisor)
+    let decomposed = [glutton, ...Array(divisor-1).fill(quotient)]
     let multisigs = []
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < decomposed.length; i++) {
       // TODO: replace 1 with amount of vtxos to create
       let multisigPrivkey = generatePrivateKey()
       let multisigPubkey = derivePublicKey(multisigPrivkey).substring(2)
@@ -59,13 +58,13 @@ export const useStateChain = defineStore('stateChain', () => {
       let [tpubkey] = Tap.getPubKey(backupPubkey, { tree: tapTree })
       let multisig = Address.p2tr.fromPubKey(tpubkey, network)
       multisigs.push({
+        amount: decomposed[i],
         multisig,
         script,
         aValue,
         operatorMultisigPubkey,
         coinId,
         multisigPrivkey,
-        amount,
         parityByte,
       })
     }
@@ -74,27 +73,27 @@ export const useStateChain = defineStore('stateChain', () => {
     let fundingTxData = Tx.create({
       vin: [
         {
-          txid: utxo.txid,
-          vout: utxo.vout,
           prevout: {
             scriptPubKey: Address.toScriptPubKey(address.value),
             value: utxo.value,
           },
+          txid: utxo.txid,
+          vout: utxo.vout,
         },
       ],
       vout: [],
     })
 
-    for (let i = 0; i < multisigs.length; i++) {
+    for (let multisig of multisigs) {
       fundingTxData.vout.push({
-        scriptPubKey: Address.toScriptPubKey(multisigs[i].multisig),
-        value: multisigs[i].amount,
+        scriptPubKey: Address.toScriptPubKey(multisig.multisig),
+        value: multisig.amount,
       })
     }
     let fundingTxid = Tx.util.getTxid(fundingTxData)
+
     // create vtxos
-    for (let i = 0; i < 1; i++) {
-      // TODO: replace 1 with amount of vtxos to create
+    for (let i = 0; i < multisigs.length; i++) {
       let vtxo = {
         stateId: userId.value,
         type: 'statecoin',
@@ -108,12 +107,12 @@ export const useStateChain = defineStore('stateChain', () => {
         withdrawSignatures: [],
         priorTransactions: [],
         privateKey: multisigs[i].multisigPrivkey,
-        amount,
+        amount: multisigs[i].amount,
         multisig: multisigs[i].multisig,
         script: multisigs[i].script,
         label: '',
       }
-      let numberOfStatuses = 2 // TODO: depends on amount of vtxos to create, multiples of two
+      let numberOfStatuses = decomposed.length * 2
       // receiveCoins([vtxo], i + 1, numberOfStatuses, true)
     }
     let signature = Signer.taproot.sign(privateKey.value, fundingTxData, 0)
@@ -203,7 +202,6 @@ export const useStateChain = defineStore('stateChain', () => {
   return {
     address,
     deposit,
-    depositToStatechain,
     fetchNProfile,
     fetchPrivateKey,
     fetchPublicKey,

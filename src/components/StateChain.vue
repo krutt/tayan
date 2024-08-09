@@ -98,7 +98,7 @@ let tapFaucetAndUpdateUtxos = async () => {
                         {{ utxo.txid }}
                       </context-menu-label>
                       <context-menu-separator />
-                      <context-menu-item @click="stateChain.depositToStatechain(utxo)" inset>
+                      <context-menu-item @click="stateChain.deposit(utxo)" inset>
                         Deposit to Statechain
                       </context-menu-item>
                     </context-menu-content>
@@ -137,12 +137,9 @@ let tapFaucetAndUpdateUtxos = async () => {
       </resizable-panel-group>
     </card-content>
     <card-footer class="justify-between space-x-2">
-      <Button @click="$emit('unilateralExit')" variant="outline"> One-sided withdraw </Button>
-      <Button @click="$emit('appendToWithdrawal')" variant="secondary"> Add to withdrawal </Button>
-      <Button @click="$emit('commitState')"> Commit state </Button>
       <drawer class="md:w-1/3 w-full">
         <drawer-trigger class="dark:text-white">
-          <Button> Deposit to Statechain </Button>
+          <Button variant="ghost"> Show User UTXOs </Button>
         </drawer-trigger>
         <drawer-content class="flex items-center justify-center py-2 space-x-2">
           <drawer-header class="dark:text-white">
@@ -204,6 +201,15 @@ let tapFaucetAndUpdateUtxos = async () => {
           </drawer-footer>
         </drawer-content>
       </drawer>
+      <Button @click="$emit('unilateralExit')" :disabled="true" variant="outline">
+        One-sided withdraw
+      </Button>
+      <Button @click="$emit('appendToWithdrawal')" :disabled="true" variant="ghost">
+        Add to withdrawal
+      </Button>
+      <Button @click="$emit('commitState')" :disabled="true" variant="secondary">
+        Commit state
+      </Button>
     </card-footer>
   </card>
 </template>
