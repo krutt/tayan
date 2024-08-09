@@ -46,8 +46,8 @@ export const useStateChain = defineStore('stateChain', () => {
       let multisigPubkey = derivePublicKey(multisigPrivkey).substring(2)
       let multisigPubkeyWithParity = derivePublicKey(multisigPrivkey) // TODO: check if necessary
       let messageId = generatePrivateKey().substring(0, 32)
-      let { aValue, coinId, parityByte } = makeCoin(messageId)
-      let operatorMultisigPubkey = publicKey.value
+      let { aValue, coinId, parityByte, pubkey } = makeCoin(messageId)
+      let operatorMultisigPubkey = pubkey
       // create multisig
       let script = [multisigPubkey, 'OP_CHECKSIGVERIFY', operatorMultisigPubkey, 'OP_CHECKSIG']
       let backupPubkey = combineTwoPublicKeys(
