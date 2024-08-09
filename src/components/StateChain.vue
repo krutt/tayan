@@ -25,7 +25,10 @@ let sutxos = ref([])
 let vtxos = ref([])
 
 /* lifecycles */
-onMounted(async () => (utxos.value = await fetchUtxos(userAddress.value)))
+onMounted(async () => {
+  utxos.value = await fetchUtxos(userAddress.value)
+  sutxos.value = await fetchUtxos(stateChain.address)
+})
 
 /* functions */
 let tapFaucetAndUpdateUtxos = async () => {
