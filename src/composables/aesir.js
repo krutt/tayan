@@ -3,6 +3,43 @@
 export const useAesir = () => {
   const rpcAuth = 'aesir:aesir'
   return {
+    fastForward: async blocks => {
+      if (!blocks) blocks = 100
+      let { result } = await fetch('http://localhost:18443', {
+        body: JSON.stringify({
+          id: 'fastForwardNewAddress',
+          jsonrpc: '1.0',
+          method: 'getnewaddress',
+          params: ['treasury', 'bech32'],
+        }),
+        credentials: 'same-origin',
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          Authorization: `Basic ${btoa(rpcAuth)}`,
+          'Content-Type': 'application/json;',
+        },
+        method: 'POST',
+      })
+        .catch(console.error)
+        .then(async response => await response.json())
+      return await fetch('http://localhost:18443', {
+        body: JSON.stringify({
+          id: 'fastForward',
+          jsonrpc: '1.0',
+          method: 'generatetoaddress',
+          params: [blocks, result],
+        }),
+        credentials: 'same-origin',
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          Authorization: `Basic ${btoa(rpcAuth)}`,
+          'Content-Type': 'application/json;',
+        },
+        method: 'POST',
+      })
+        .catch(console.error)
+        .then(async response => await response.json())
+    },
     fetchBalance: async address => {
       if (!address || address.length == 0) return 0
       return await fetch('http://localhost:18443', {

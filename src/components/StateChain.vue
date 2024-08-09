@@ -5,7 +5,7 @@
 import { BadgePercent, Bitcoin } from 'lucide-vue-next'
 
 /* composables */
-let { fetchUtxos, tapFaucet } = useAesir()
+let { fastForward, fetchUtxos, tapFaucet } = useAesir()
 
 /* emits & props */
 defineEmits(['appendToWithdrawal', 'commitState', 'unilateralExit'])
@@ -34,6 +34,7 @@ onMounted(async () => {
 let tapFaucetAndUpdateUtxos = async () => {
   await tapFaucet(props.address)
   sutxos.value = await fetchUtxos(props.address)
+  await fastForward()
 }
 </script>
 
