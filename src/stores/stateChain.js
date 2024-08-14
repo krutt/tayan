@@ -35,16 +35,15 @@ export const useStateChain = defineStore('stateChain', () => {
     if (amount - txfee < 0) return
     amount -= txfee
 
-    let divisor = 3  // TODO: allow customization
+    let divisor = 3 // TODO: allow customization
     let quotient = Math.floor(amount / divisor)
     let glutton = quotient + (amount % divisor)
-    let decomposed = [glutton, ...Array(divisor-1).fill(quotient)]
+    let decomposed = [glutton, ...Array(divisor - 1).fill(quotient)]
     let multisigs = []
     for (let i = 0; i < decomposed.length; i++) {
-      // TODO: replace 1 with amount of vtxos to create
       let multisigPrivkey = generatePrivateKey()
-      let multisigPubkey = derivePublicKey(multisigPrivkey).substring(2)
-      let multisigPubkeyWithParity = derivePublicKey(multisigPrivkey) // TODO: check if necessary
+      let multisigPubkeyWithParity = derivePublicKey(multisigPrivkey)
+      let multisigPubkey = multisigPubkeyWithParity.substring(2)
       let messageId = generatePrivateKey().substring(0, 32)
       let { aValue, coinId, parityByte, pubkey } = makeCoin(messageId)
       let operatorMultisigPubkey = pubkey
@@ -55,8 +54,8 @@ export const useStateChain = defineStore('stateChain', () => {
         multisigPubkeyWithParity
       ).substring(2)
       let tapTree = [Tap.encodeScript(script)]
-      let [tpubkey] = Tap.getPubKey(backupPubkey, { tree: tapTree })
-      let multisig = Address.p2tr.fromPubKey(tpubkey, network)
+      let [tapPubKey] = Tap.getPubKey(backupPubkey, { tree: tapTree })
+      let multisig = Address.p2tr.fromPubKey(tapPubKey, network)
       multisigs.push({
         amount: decomposed[i],
         multisig,
@@ -171,10 +170,10 @@ export const useStateChain = defineStore('stateChain', () => {
     let stateId = generatePrivateKey().substring(0, 32)
     let receiverPrivateKey = generatePrivateKey()
     let receiverPublicKey = derivePublicKey(receiverPrivateKey).substring(2)
-    let address = Address.fromScriptPubKey([1, receiverPublicKey], network)
+    let receiver = Address.fromScriptPubKey([1, receiverPublicKey], network)
     // update state
     state[stateId] = {
-      address,
+      address: receiver,
       receiverPrivateKey,
       receiverPublicKey,
       relay,
@@ -183,8 +182,8 @@ export const useStateChain = defineStore('stateChain', () => {
       utxos: {},
       vtxos: {},
     }
-    return stateId
     // TODO: persist state
+    return stateId
   }
 
   let storeNProfile = value => {
