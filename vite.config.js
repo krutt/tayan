@@ -2,7 +2,7 @@
 import autoImport from 'unplugin-auto-import/vite'
 import autoprefixer from 'autoprefixer'
 import { defineConfig } from 'vite'
-import path from 'path'
+import { fileURLToPath, URL } from 'node:url'
 import svgLoader from 'vite-svg-loader'
 import vue from '@vitejs/plugin-vue'
 import tailwind from 'tailwindcss'
@@ -32,10 +32,10 @@ export default defineConfig({
     svgLoader(),
     vue(),
   ],
-  publicDir: path.resolve(__dirname, './static'),
+  publicDir: fileURLToPath(new URL('./static', import.meta.url)),
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
 })
