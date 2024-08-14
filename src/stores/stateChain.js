@@ -69,11 +69,15 @@ export const useStateChain = defineStore('stateChain', () => {
     }
 
     // create backout transaction
+    console.log(address.value)
+    console.log(publicKey.value)
+    console.log(Address.toScriptPubKey(address.value))
     let fundingTxData = Tx.create({
       vin: [
         {
           prevout: {
             scriptPubKey: Address.toScriptPubKey(address.value),
+            // scriptPubKey: ['OP_1', publicKey.value],
             value: utxo.value,
           },
           txid: utxo.txid,
@@ -82,6 +86,7 @@ export const useStateChain = defineStore('stateChain', () => {
       ],
       vout: [],
     })
+    console.log(fundingTxData)
 
     for (let multisig of multisigs) {
       fundingTxData.vout.push({
@@ -135,7 +140,7 @@ export const useStateChain = defineStore('stateChain', () => {
   let initialize = () => {
     privateKey.value = fetchPrivateKey() || generatePrivateKey()
     publicKey.value = derivePublicKey(privateKey.value).substring(2)
-    address.value = Address.fromScriptPubKey([1, privateKey.value], network)
+    address.value = Address.fromScriptPubKey([1, publicKey.value], network)
     nprofile.value = createNProfile('nprofile', publicKey.value, [relay])
     storeNProfile(nprofile)
     storePrivateKey(privateKey.value)
