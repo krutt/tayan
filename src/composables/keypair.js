@@ -1,16 +1,13 @@
 /* ~~/src/composables/keypair.js */
 
-import { CURVE, ProjectivePoint, utils } from '@noble/secp256k1'
+import { CURVE, ProjectivePoint as Point, utils } from '@noble/secp256k1'
 const { randomPrivateKey } = utils
 const { bytesToHex } = useHexlify()
 
 export const useKeypair = () => {
   return {
-    combineTwoPublicKeys: (firstPublicKey, secondPublicKey) => {
-      return ProjectivePoint.fromHex(firstPublicKey)
-        .add(ProjectivePoint.fromHex(secondPublicKey))
-        .toHex(true)
-    },
+    combineTwoPublicKeys: (firstPublicKey, secondPublicKey) =>
+      Point.fromHex(firstPublicKey).add(Point.fromHex(secondPublicKey)).toHex(true),
     generatePrivateKey: () => bytesToHex(randomPrivateKey()),
     generatePrivateKeyAvoidingPrefix: prefix => {
       while (true) {
@@ -19,7 +16,7 @@ export const useKeypair = () => {
         return privateKey
       }
     },
-    derivePublicKey: privateKey => ProjectivePoint.fromPrivateKey(privateKey, true).toHex(),
+    derivePublicKey: privateKey => Point.fromPrivateKey(privateKey, true).toHex(),
     subtractTwoPrivateKeys: (firstPrivateKey, secondPrivateKey) => {
       let comboKey = (
         (BigInt('0x' + firstPrivateKey) - BigInt('0x' + secondPrivateKey)) %
