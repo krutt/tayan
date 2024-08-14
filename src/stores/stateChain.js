@@ -69,9 +69,6 @@ export const useStateChain = defineStore('stateChain', () => {
     }
 
     // create backout transaction
-    console.log(address.value)
-    console.log(publicKey.value)
-    console.log(Address.toScriptPubKey(address.value))
     let fundingTxData = Tx.create({
       vin: [
         {
@@ -86,7 +83,6 @@ export const useStateChain = defineStore('stateChain', () => {
       ],
       vout: [],
     })
-    console.log(fundingTxData)
 
     for (let multisig of multisigs) {
       fundingTxData.vout.push({
