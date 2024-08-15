@@ -141,6 +141,7 @@ export const useStateChain = defineStore('stateChain', () => {
     storeNProfile(nprofile.value)
     storePrivateKey(privateKey.value)
     storePublicKey(publicKey.value)
+    loadState()
     userId.value = makeUser()
     toast('Disposable statechain created', {
       description: `Statechain created under nprofile:${nprofile.value.substring(0, 20)}…`,
@@ -148,8 +149,8 @@ export const useStateChain = defineStore('stateChain', () => {
   }
 
   let loadState = () => {
-    let saved = localStorage.getItem('state', '')
-    if (saved.length > 0) {
+    let saved = localStorage.getItem('state')
+    if (!!saved) {
       state = JSON.parse(saved)
     } else {
       state = {}
