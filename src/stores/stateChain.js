@@ -187,6 +187,9 @@ export const useStateChain = defineStore('stateChain', () => {
     return stateId
   }
 
+  let receiveCoins = async (coins, status_index, numberOfStatuses, trusted = false) => {
+  }
+
   let storeNProfile = value => {
     localStorage.setItem('stateChainNProfile', value)
   }
@@ -209,6 +212,7 @@ export const useStateChain = defineStore('stateChain', () => {
     nprofile,
     privateKey,
     publicKey,
+    receiveCoins,
     storeNProfile,
     storePrivateKey,
     storePublicKey,
