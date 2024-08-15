@@ -147,6 +147,15 @@ export const useStateChain = defineStore('stateChain', () => {
     })
   }
 
+  let loadState = () => {
+    let saved = localStorage.getItem('state', '')
+    if (saved.length > 0) {
+      state = JSON.parse(saved)
+    } else {
+      state = {}
+    }
+  }
+
   let makeCoin = messageId => {
     let coinId = generatePrivateKey().substring(0, 32)
     let privkey = generatePrivateKeyAvoidingPrefix('00')
@@ -163,7 +172,7 @@ export const useStateChain = defineStore('stateChain', () => {
       parityByte,
       pubkey,
     }
-    // TODO: persist state
+    persistState()
     return { aValue, coinId, parityByte, pubkey }
   }
 
@@ -183,8 +192,12 @@ export const useStateChain = defineStore('stateChain', () => {
       utxos: {},
       vtxos: {},
     }
-    // TODO: persist state
+    persistState()
     return stateId
+  }
+
+  let persistState = () => {
+    localStorage.setItem('state', JSON.stringify(state))
   }
 
   let receiveCoins = async (coins, status_index, numberOfStatuses, trusted = false) => {
@@ -210,6 +223,7 @@ export const useStateChain = defineStore('stateChain', () => {
     fetchPublicKey,
     initialize,
     nprofile,
+    persistState,
     privateKey,
     publicKey,
     receiveCoins,
