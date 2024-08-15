@@ -138,7 +138,7 @@ export const useStateChain = defineStore('stateChain', () => {
     publicKey.value = derivePublicKey(privateKey.value).substring(2)
     address.value = Address.fromScriptPubKey([1, publicKey.value], network)
     nprofile.value = createNProfile('nprofile', publicKey.value, [relay])
-    storeNProfile(nprofile)
+    storeNProfile(nprofile.value)
     storePrivateKey(privateKey.value)
     storePublicKey(publicKey.value)
     userId.value = makeUser()
