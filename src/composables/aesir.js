@@ -143,7 +143,7 @@ export const useAesir = () => {
             console.error(error.code, error.message)
             return
           }
-          return result  // txnHash
+          return result // txnHash
         })
     },
     tapFaucet: async address => {

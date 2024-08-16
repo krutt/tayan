@@ -45,7 +45,7 @@ export const useStateChain = defineStore('stateChain', () => {
       let multisigPubkeyWithParity = derivePublicKey(multisigPrivkey)
       let multisigPubkey = multisigPubkeyWithParity.substring(2)
       let messageId = generatePrivateKey().substring(0, 32)
-      let { aValue, coinId, parityByte, pubkey } = makeCoin(messageId)
+      let { aValue, coinId, parityByte, pubkey } = makeCoin(messageId)  // TODO: done by operator via nostr
       let operatorMultisigPubkey = pubkey
       // create multisig
       let script = [multisigPubkey, 'OP_CHECKSIGVERIFY', operatorMultisigPubkey, 'OP_CHECKSIG']
@@ -94,7 +94,7 @@ export const useStateChain = defineStore('stateChain', () => {
 
     // create vtxos
     for (let i = 0; i < multisigs.length; i++) {
-      let vtxo = {
+      let coin = {
         stateId: userId.value,
         type: 'statecoin',
         operator: nprofile.value,
@@ -113,7 +113,7 @@ export const useStateChain = defineStore('stateChain', () => {
         label: '',
       }
       let numberOfStatuses = decomposed.length * 2
-      // receiveCoins([vtxo], i + 1, numberOfStatuses, true)
+      await receiveCoins([coin], decomposed.length + i + 1, numberOfStatuses, true)
     }
     let signature = Signer.taproot.sign(privateKey.value, fundingTxData, 0)
     fundingTxData.vin[0].witness = [signature]
@@ -202,6 +202,59 @@ export const useStateChain = defineStore('stateChain', () => {
   }
 
   let receiveCoins = async (coins, status_index, numberOfStatuses, trusted = false) => {
+    for (let coin of coins) {
+      let { amount, fundingTxid, multisig, script, vout, withdrawSignatures } = coin
+      let withdrawalTxData = Tx.create({
+        vin: [
+          {
+            prevout: {
+              scriptPubKey: Address.toScriptPubKey(multisig),
+              value: amount,
+            },
+            txid: fundingTxid,
+            vout,
+          },
+        ],
+        vout: [
+          {
+            scriptPubKey: Address.toScriptPubKey(multisig),
+            value: amount - 500,
+          },
+        ],
+      })
+      let target = Tap.encodeScript(script)
+      let sighash = Signer.taproot.hash(withdrawalTxData, 0, { extension: target }).hex
+      let initiateWithdrawalTxid = Tx.util.getTxid(withdrawalTxData)
+      let lockingPeriod = 2016
+      if (lockingPeriod - 3 * withdrawSignatures.length < 3) {
+        // TODO: abort
+        continue
+      }
+      let sequenceNumber = lockingPeriod - 3 * withdrawSignatures.length
+      let withdrawalTxData2 = Tx.create({
+        vin: [
+          {
+            prevout: {
+              scriptPubKey: Address.toScriptPubKey(multisig),
+              value: amount - 500,
+            },
+            txid: initiateWithdrawalTxid,
+            vout: 0,
+          },
+        ],
+        vout: [
+          {
+            scriptPubKey: Address.toScriptPubKey(/* address */),
+            value: amount - 500,
+          },
+        ],
+      })
+      let sighash2 = Signer.taproot.hash(withdrawalTxData2, 0, {
+        extension: target,
+        sigflag: 128 | 3,
+      }).hex
+      // transferCoin(...)  // TODO: done by operator via nostr
+    }
   }
 
   let storeNProfile = value => {
