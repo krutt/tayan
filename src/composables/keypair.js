@@ -6,6 +6,13 @@ const { bytesToHex } = useHexlify()
 
 export const useKeypair = () => {
   return {
+    combineTwoPrivateKeys: (firstPrivateKey, secondPrivateKey) => {
+      let comboKey = (
+        (BigInt('0x' + firstPrivateKey) + BigInt('0x' + secondPrivateKey)) %
+        CURVE.n
+      ).toString(16)
+      return ('0'.repeat(64) + comboKey).slice(-64)
+    },
     combineTwoPublicKeys: (firstPublicKey, secondPublicKey) =>
       Point.fromHex(firstPublicKey).add(Point.fromHex(secondPublicKey)).toHex(true),
     generatePrivateKey: () => bytesToHex(randomPrivateKey()),
