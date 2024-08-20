@@ -3,6 +3,7 @@
 // imports
 import { Address, Signer, Tap, Tx } from '@cmdcode/tapscript'
 import { schnorr } from '@noble/curves/secp256k1'
+const { bytesToHex } = useHexlify()
 const {
   combineTwoPrivateKeys,
   combineTwoPublicKeys,
@@ -96,22 +97,22 @@ export const useStateChain = defineStore('stateChain', () => {
     // create vtxos
     for (let i = 0; i < multisigs.length; i++) {
       let coin = {
-        stateId: userId.value,
-        type: 'statecoin',
+        amount: multisigs[i].amount,
+        aValue: multisigs[i].aValue,
+        coinId: multisigs[i].coinId,
+        fundingTxid,
+        label: '',
+        multisig: multisigs[i].multisig,
         operator: nprofile.value,
         operatorMultisigPubkey: multisigs[i].operatorMultisigPubkey,
         parityByte: multisigs[i].parityByte,
-        coinId: multisigs[i].coinId,
-        fundingTxid,
-        vout: i,
-        aValue: multisigs[i].aValue,
-        withdrawSignatures: [],
         priorTransactions: [],
         privateKey: multisigs[i].multisigPrivkey,
-        amount: multisigs[i].amount,
-        multisig: multisigs[i].multisig,
         script: multisigs[i].script,
-        label: '',
+        stateId: userId.value,
+        type: 'statecoin',
+        vout: i,
+        withdrawSignatures: [],
       }
       let numberOfStatuses = decomposed.length * 2
       await receiveCoins([coin], decomposed.length + i + 1, numberOfStatuses, true)
@@ -168,11 +169,11 @@ export const useStateChain = defineStore('stateChain', () => {
     let valueToKeep = subtractTwoPrivateKeys(privkey, aValue)
     privkey = null
     // update state
-    state[userId.value]['vtxos'][coinId] = {
+    state[nprofile.value]['vtxos'][coinId] = {
       valueToKeep,
       numberOfTimesSigned: 0,
       parityByte,
-      pubkey,
+      publicKey: pubkey,
     }
     persistState()
     return { aValue, coinId, parityByte, pubkey }
@@ -256,9 +257,75 @@ export const useStateChain = defineStore('stateChain', () => {
         extension: target,
         sigflag: 128 | 3,
       }).hex
-      let { aValue, coinId, operator } = coin
+      let { aValue, coinId, operator, parityByte } = coin
       let transaction = { aValue, coinId, operator, sighash, sighash2 }
-      await transferCoin(transaction)  // TODO: done by operator via nostr
+      let { msg } = await transferCoin(transaction) // TODO: done by operator via nostr
+      if (!!msg.error) {
+        toast(`Aborting due to error on operator side: ${msg.error}`)
+        continue
+      }
+      let responseAValue = msg['aValue']
+      let responseParityByte = msg['parityByte']
+      if (responseParityByte != parityByte) {
+        toast('Aborting coin transfer because operator lied.')
+        continue
+      }
+      let responseTimesSigned = msg['numberOfTimesSigned']
+      let withdrawSignature = msg['signature']
+      let withdrawSignature2 = msg['signature2'] + '83'
+      let operatorMultisigPubkey = coin['operatorMultisigPubkey']
+      // verify
+      let validWithdrawSignature = schnorr.verify(
+        withdrawSignature.substring(0, 128),
+        sighash,
+        operatorMultisigPubkey
+      )
+      let validWithdrawSignature2 = schnorr.verify(
+        withdrawSignature2.substring(0, 128),
+        sighash2,
+        operatorMultisigPubkey
+      )
+      if (!validWithdrawSignature || !validWithdrawSignature2) {
+        toast('Aborting due to invalid withdrawal signatures')
+        continue
+      }
+      let { priorTransactions } = coin
+      if (
+        responseTimesSigned - 1 != priorTransactions.length ||
+        priorTransactions.length != withdrawSignatures.length
+      ) {
+        toast('Aborting due to mismatched times signed to previous transaction count')
+        continue
+      }
+      // introspection
+      let transactionInfo = null
+      let priorTxid = null
+      let priorVout = null
+      let dontAdd = null
+      // TODO: understand checks here before adding it
+      if (dontAdd) continue
+      withdrawSignatures.push([withdrawSignature, withdrawalTxData2])
+      priorTransactions.push([Tx.encode(withdrawalTxData2).hex, coin.script])
+      state[coin.stateId]['vtxos'][coinId] = {
+        amount: coin.amount,
+        aValue,
+        coinId,
+        fundingTxid: coin.fundingTxid,
+        label: '',
+        multisig: coin.multisig,
+        operator: coin.operator,
+        operatorMultisigPubkey,
+        operatorUp: true,
+        parityByte,
+        priorTransactions,
+        privkey: coin.privkey,
+        script: coin.script,
+        stateId: coin.stateId,
+        type: 'vtxo',
+        vout: coin.vout,
+        withdrawSignatures,
+      }
+      persistState()
     }
   }
 
@@ -281,14 +348,12 @@ export const useStateChain = defineStore('stateChain', () => {
     let recoveredPublicKey = derivePublicKey(recoveredPrivateKey).substring(2)
     if (recoveredPublicKey != state[operator]['vtxos'][coinId]['publicKey']) {
       return {
-        msg: {
-          error: 'wrong aValue',
-        },
-        type: 'transfer_response'
+        msg: { error: 'wrong aValue' },
+        type: 'transfer_response',
       }
     }
-    let signature = schnorr.sign(sighash, recoveredPrivateKey)
-    let signature2 = schnorr.sign(sighash2, recoveredPrivateKey)
+    let signature = bytesToHex(schnorr.sign(sighash, recoveredPrivateKey))
+    let signature2 = bytesToHex(schnorr.sign(sighash2, recoveredPrivateKey))
     let { numberOfTimesSigned, parityByte } = state[operator]['vtxos'][coinId]
     numberOfTimesSigned += 1
     aValue = generatePrivateKey().substring(0, 62)
@@ -302,7 +367,7 @@ export const useStateChain = defineStore('stateChain', () => {
     }
     let messageForUser = {
       msg: { aValue, numberOfTimesSigned, parityByte, signature, signature2 },
-      type: 'transfer_response'
+      type: 'transfer_response',
     }
     aValue = null
     return messageForUser
@@ -323,6 +388,7 @@ export const useStateChain = defineStore('stateChain', () => {
     storeNProfile,
     storePrivateKey,
     storePublicKey,
+    transferCoin,
   }
 })
 
