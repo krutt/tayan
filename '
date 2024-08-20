@@ -168,7 +168,7 @@ export const useStateChain = defineStore('stateChain', () => {
     let valueToKeep = subtractTwoPrivateKeys(privkey, aValue)
     privkey = null
     // update state
-    state[userId.value]['vtxos'][coinId] = {
+    state[nprofile.value]['vtxos'][coinId] = {
       valueToKeep,
       numberOfTimesSigned: 0,
       parityByte,
@@ -179,8 +179,7 @@ export const useStateChain = defineStore('stateChain', () => {
   }
 
   let makeUser = () => {
-    // let stateId = generatePrivateKey().substring(0, 32)
-    let stateId = nprofile.value
+    let stateId = generatePrivateKey().substring(0, 32)
     let receiverPrivateKey = generatePrivateKey()
     let receiverPublicKey = derivePublicKey(receiverPrivateKey).substring(2)
     let receiver = Address.fromScriptPubKey([1, receiverPublicKey], network)
@@ -275,8 +274,9 @@ export const useStateChain = defineStore('stateChain', () => {
   }
 
   let transferCoin = async transaction => {
+    console.log(state)
     let { aValue, coinId, operator, sighash, sighash2 } = transaction
-    let partialPrivkey = state[operator]['vtxos'][coinId]['valueToKeep']
+    let partialPrivkey = state[operator][coinId]['valToKeep']
     let recoveredPrivateKey = combineTwoPrivateKeys(partialPrivkey, aValue)
     let recoveredPublicKey = derivePublicKey(recoveredPrivateKey).substring(2)
     if (recoveredPublicKey != state[operator]['vtxos'][coinId]['publicKey']) {
@@ -292,13 +292,13 @@ export const useStateChain = defineStore('stateChain', () => {
     let { numberOfTimesSigned, parityByte } = state[operator]['vtxos'][coinId]
     numberOfTimesSigned += 1
     aValue = generatePrivateKey().substring(0, 62)
-    let valueToKeep = subtractTwoPrivateKeys(recoveredPrivateKey, aValue)
+    let valToKeep = subtractTwoPrivateKeys(recoveredPrivateKey, aValue)
     recoveredPrivateKey = null
     state[operator]['vtxos'][coinId] = {
       numberOfTimesSigned,
       parityByte,
       pubkey: recoveredPublicKey,
-      valueToKeep,
+      valToKeep,
     }
     let messageForUser = {
       msg: { aValue, numberOfTimesSigned, parityByte, signature, signature2 },
