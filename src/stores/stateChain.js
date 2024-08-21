@@ -145,6 +145,7 @@ export const useStateChain = defineStore('stateChain', () => {
     storePublicKey(publicKey.value)
     loadState()
     userId.value = makeUser()
+    vtxos.value = Object.values(state[userId.value]['vtxos'])
     toast('Disposable statechain created', {
       description: `Statechain created under nprofile:${nprofile.value.substring(0, 20)}…`,
     })
@@ -186,17 +187,19 @@ export const useStateChain = defineStore('stateChain', () => {
     let receiverPublicKey = derivePublicKey(receiverPrivateKey).substring(2)
     let receiver = Address.fromScriptPubKey([1, receiverPublicKey], network)
     // update state
-    state[stateId] = {
-      address: receiver,
-      receiverPrivateKey,
-      receiverPublicKey,
-      relay,
-      role: 'user',
-      trustedOperators: [],
-      utxos: {},
-      vtxos: {},
+    if (!state[stateId]) {
+      state[stateId] = {
+        address: receiver,
+        receiverPrivateKey,
+        receiverPublicKey,
+        relay,
+        role: 'user',
+        trustedOperators: [],
+        utxos: {},
+        vtxos: {},
+      }
+      persistState()
     }
-    persistState()
     return stateId
   }
 
@@ -325,9 +328,9 @@ export const useStateChain = defineStore('stateChain', () => {
         vout: coin.vout,
         withdrawSignatures,
       }
-      persistState()
       vtxos.value.push(state[coin.stateId]['vtxos'][coinId])
     }
+    persistState()
   }
 
   let storeNProfile = value => {
