@@ -22,7 +22,7 @@ let userAddress = storeToRefs(useAlby()).address
 /* refs */
 let utxos = ref([])
 let sutxos = ref([])
-let vtxos = ref([])
+let vtxos = storeToRefs(stateChain).vtxos
 
 /* lifecycles */
 onMounted(async () => {

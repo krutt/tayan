@@ -25,12 +25,12 @@ export const useStateChain = defineStore('stateChain', () => {
 
   /* refs */
   let address = ref('')
-  let coins = ref([])
   let nprofile = ref('')
   let privateKey = ref('')
   let publicKey = ref('')
   let role = ref('operator')
   let userId = ref('')
+  let vtxos = ref([])
 
   /* functions */
   let deposit = async utxo => {
@@ -326,6 +326,7 @@ export const useStateChain = defineStore('stateChain', () => {
         withdrawSignatures,
       }
       persistState()
+      vtxos.value.push(state[coin.stateId]['vtxos'][coinId])
     }
   }
 
@@ -389,6 +390,7 @@ export const useStateChain = defineStore('stateChain', () => {
     storePrivateKey,
     storePublicKey,
     transferCoin,
+    vtxos,
   }
 })
 
