@@ -1,18 +1,9 @@
-<<<<<<< Updated upstream
 <?xml version="1.0" encoding="utf-8"?>
 <svg
   height="1600"
   version="1.1"
   width="1600"
   xmlns="http://www.w3.org/2000/svg">
-=======
-<?xml version='1.0' encoding='utf-8'?>
-<svg
-  height='1600'
-  version='1.1'
-  width='1600'
-  xmlns='http://www.w3.org/2000/svg'>
->>>>>>> Stashed changes
   <rect
     fill='#619B8A'
     height='100%'
@@ -9827,9 +9818,5 @@
     fill='#D1B37C'
     transform='translate(538, 1096)'
     />
-<<<<<<< Updated upstream
-  <circle cx="1025" cy="380" r="8" fill="#F6EFDE"/>
-=======
   <circle cx='1025' cy='380' r='8' fill='#F6EFDE'/>
->>>>>>> Stashed changes
 </svg>
