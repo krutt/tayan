@@ -31,6 +31,11 @@ onMounted(async () => {
 })
 
 /* functions */
+let depositAndUpdateStatechainUtxos = async utxo => {
+  await stateChain.deposit(utxo)
+  sutxos.value = await fetchUtxos(stateChain.address)
+}
+
 let tapFaucetAndUpdateUtxos = async () => {
   await tapFaucet(props.address)
   sutxos.value = await fetchUtxos(props.address)
@@ -61,78 +66,57 @@ let tapFaucetAndUpdateUtxos = async () => {
     <card-content>
       <resizable-panel-group direction="horizontal">
         <resizable-panel>
-          <carousel :opts="{ align: 'start' }" class="min-w-96 mr-10 relative w-11/12">
-            <carousel-content>
-              <carousel-item
-                class="md:basis-1/2 lg:basis-1/3"
-                key="index"
-                v-for="(utxo, index) in sutxos"
-              >
-                <div class="p-1">
-                  <context-menu>
-                    <context-menu-trigger>
-                      <card class="max-w-60">
-                        <card-content
-                          class="flex flex-col aspect-square items-center justify-center p-6"
-                        >
-                          <Bitcoin :size="100" class="py-4" />
-                          <span class="break-all font-semibold select-none text-md lg:text-xl">
-                            Amount:
-                            <br />
-                            {{ utxo.value }}
-                          </span>
-                        </card-content>
-                      </card>
-                    </context-menu-trigger>
-                    <context-menu-content class="w-64">
-                      <context-menu-label class="font-semibold select-none">
-                        Block:&nbsp;
-                        {{ utxo.status.block_height }}
-                      </context-menu-label>
-                      <context-menu-label class="font-semibold select-none">
-                        Time:&nbsp;
-                        {{ new Date(utxo.status.block_time * 1_000) }}
-                      </context-menu-label>
-                      <context-menu-label class="break-all font-semibold select-none">
-                        UXID:&nbsp;
-                        {{ utxo.txid }}
-                      </context-menu-label>
-                      <context-menu-separator />
-                      <context-menu-item @click="stateChain.deposit(utxo)" inset>
-                        Deposit to Statechain
-                      </context-menu-item>
-                    </context-menu-content>
-                  </context-menu>
-                </div>
-              </carousel-item>
-            </carousel-content>
-          </carousel>
-        </resizable-panel>
-        <resizable-handle with-handle />
-        <resizable-panel>
-          <carousel :opts="{ align: 'start' }" class="min-w-96 mr-32 relative w-10/12">
-            <carousel-content>
-              <carousel-item
-                class="md:basis-1/2 lg:basis-1/3"
-                key="index"
-                v-for="(vtxo, index) in vtxos"
-              >
-                <div class="p-1">
+          <div class="grid grid-cols-2 lg:grid-cols-3 min-w-96 mr-32 w-11/12">
+            <card class="m-2 max-w-60 md:basis-1/2 lg:basis-1/3" v-for="(utxo, index) in sutxos">
+              <context-menu>
+                <context-menu-trigger>
                   <card class="max-w-60">
                     <card-content
                       class="flex flex-col aspect-square items-center justify-center p-6"
                     >
-                      <BadgePercent :size="100" class="py-4" />
-                      <span class="break-all font-semibold select-none text-md lg:text-xl">{{
-                        vtxo.txid
-                      }}</span>
+                      <Bitcoin :size="100" class="py-4" />
+                      <span class="break-all font-semibold select-none text-md lg:text-xl">
+                        Amount:
+                        <br />
+                        {{ utxo.value }}
+                      </span>
                     </card-content>
                   </card>
-                </div>
-              </carousel-item>
-            </carousel-content>
-            <carousel-add disabled="true" v-if="vtxos.length" />
-          </carousel>
+                </context-menu-trigger>
+                <context-menu-content class="w-64">
+                  <context-menu-label class="font-semibold select-none">
+                    Block:&nbsp;
+                    {{ utxo.status.block_height }}
+                  </context-menu-label>
+                  <context-menu-label class="font-semibold select-none">
+                    Time:&nbsp;
+                    {{ new Date(utxo.status.block_time * 1_000) }}
+                  </context-menu-label>
+                  <context-menu-label class="break-all font-semibold select-none">
+                    UXID:&nbsp;
+                    {{ utxo.txid }}
+                  </context-menu-label>
+                  <context-menu-separator />
+                  <context-menu-item @click="depositAndUpdateStatechainUtxos(utxo)" inset>
+                    Deposit to Statechain
+                  </context-menu-item>
+                </context-menu-content>
+              </context-menu>
+            </card>
+          </div>
+        </resizable-panel>
+        <resizable-handle with-handle />
+        <resizable-panel>
+          <div class="grid grid-cols-2 lg:grid-cols-3 min-w-96 mr-32 w-11/12">
+            <card class="m-2 max-w-60 md:basis-1/2 lg:basis-1/3" v-for="(vtxo, index) in vtxos">
+              <card-content class="aspect-square items-center justify-center p-6">
+                <BadgePercent :size="100" class="py-4" />
+                <span class="break-all font-semibold select-none text-md lg:text-xl">{{
+                  vtxo.txid
+                }}</span>
+              </card-content>
+            </card>
+          </div>
         </resizable-panel>
       </resizable-panel-group>
     </card-content>
