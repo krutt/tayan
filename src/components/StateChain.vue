@@ -33,7 +33,7 @@ onMounted(async () => {
 /* functions */
 let depositAndUpdateStatechainUtxos = async utxo => {
   await stateChain.deposit(utxo)
-  sutxos.value = await fetchUtxos(stateChain.address)
+  sutxos.value = sutxos.value.filter(sutxo => sutxo.txid != utxo.txid)
 }
 
 let tapFaucetAndUpdateUtxos = async () => {
