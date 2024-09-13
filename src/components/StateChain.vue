@@ -131,7 +131,7 @@ let tapFaucetAndUpdateUtxos = async () => {
                 </div>
               </carousel-item>
             </carousel-content>
-            <carouselAdd disabled="true" v-if="vtxos.length" />
+            <carousel-add disabled="true" v-if="vtxos.length" />
           </carousel>
         </resizable-panel>
       </resizable-panel-group>
