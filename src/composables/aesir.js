@@ -140,7 +140,7 @@ export const useAesir = () => {
         .then(async response => {
           let { error, result } = await response.json()
           if (!!error) {
-            console.error(error.code, error.message)
+            toast.error('Transaction failed', {description: error.message})
             return
           }
           return result // txnHash

@@ -264,13 +264,15 @@ export const useStateChain = defineStore('stateChain', () => {
       let transaction = { aValue, coinId, operator, sighash, sighash2 }
       let { msg } = await transferCoin(transaction) // TODO: done by operator via nostr
       if (!!msg.error) {
-        toast(`Aborting due to error on operator side: ${msg.error}`)
+        toast.error('Abort', {
+          description: `Aborting due to error on operator side: ${msg.error}`,
+        })
         continue
       }
       let responseAValue = msg['aValue']
       let responseParityByte = msg['parityByte']
       if (responseParityByte != parityByte) {
-        toast('Aborting coin transfer because operator lied.')
+        toast.error('Abort', { description: 'Aborting coin transfer because operator lied.' })
         continue
       }
       let responseTimesSigned = msg['numberOfTimesSigned']
@@ -289,7 +291,7 @@ export const useStateChain = defineStore('stateChain', () => {
         operatorMultisigPubkey
       )
       if (!validWithdrawSignature || !validWithdrawSignature2) {
-        toast('Aborting due to invalid withdrawal signatures')
+        toast.error('Abort', { description: 'Aborting due to invalid withdrawal signatures' })
         continue
       }
       let { priorTransactions } = coin
@@ -297,7 +299,7 @@ export const useStateChain = defineStore('stateChain', () => {
         responseTimesSigned - 1 != priorTransactions.length ||
         priorTransactions.length != withdrawSignatures.length
       ) {
-        toast('Aborting due to mismatched times signed to previous transaction count')
+        toast.error('Aborting due to mismatched times signed to previous transaction count')
         continue
       }
       // introspection
