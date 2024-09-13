@@ -94,6 +94,15 @@ export const useStateChain = defineStore('stateChain', () => {
     }
     let fundingTxid = Tx.util.getTxid(fundingTxData)
 
+    let signature = Signer.taproot.sign(privateKey.value, fundingTxData, 0)
+    fundingTxData.vin[0].witness = [signature]
+    let rawTransaction = Tx.encode(fundingTxData).hex
+
+    let actualTxid = await pushTransaction(rawTransaction)
+    if (actualTxid != fundingTxid) {
+      toast.error('Error', {description: 'Statecoins cannot be created for user. Contact operator for your UTXO'})
+      return
+    }
     // create vtxos
     for (let i = 0; i < multisigs.length; i++) {
       let coin = {
@@ -117,10 +126,6 @@ export const useStateChain = defineStore('stateChain', () => {
       let numberOfStatuses = decomposed.length * 2
       await receiveCoins([coin], decomposed.length + i + 1, numberOfStatuses, true)
     }
-    let signature = Signer.taproot.sign(privateKey.value, fundingTxData, 0)
-    fundingTxData.vin[0].witness = [signature]
-    let rawTransaction = Tx.encode(fundingTxData).hex
-    await pushTransaction(rawTransaction)
   }
 
   let fetchNProfile = () => {
