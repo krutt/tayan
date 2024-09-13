@@ -66,6 +66,12 @@ let tapFaucetAndUpdateUtxos = async () => {
     <card-content>
       <resizable-panel-group direction="horizontal">
         <resizable-panel>
+          <h2 class="ml-4">
+            Bitcoin utxos
+          </h2>
+          <h3 class="ml-4">
+            Original. Pure. Classy.
+          </h3>
           <div class="grid grid-cols-2 lg:grid-cols-3 min-w-96 mr-32 w-11/12">
             <card class="m-2 max-w-60 md:basis-1/2 lg:basis-1/3" v-for="(utxo, index) in sutxos">
               <context-menu>
@@ -107,6 +113,12 @@ let tapFaucetAndUpdateUtxos = async () => {
         </resizable-panel>
         <resizable-handle with-handle />
         <resizable-panel>
+          <h2 class="ml-4">
+            Statechain UTXOs
+          </h2>
+          <h3 class="ml-4">
+            Faster and cheaper but more scaleable.
+          </h3>
           <div class="grid grid-cols-2 lg:grid-cols-3 min-w-96 mr-32 w-11/12">
             <card class="m-2 max-w-60 md:basis-1/2 lg:basis-1/3" v-for="(vtxo, index) in vtxos">
               <card-content class="aspect-square items-center justify-center p-6">
