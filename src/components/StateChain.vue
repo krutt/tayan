@@ -67,7 +67,7 @@ let tapFaucetAndUpdateUtxos = async () => {
       <resizable-panel-group direction="horizontal">
         <resizable-panel>
           <h2 class="ml-4">
-            Bitcoin utxos
+            Bitcoin UTXOs
           </h2>
           <h3 class="ml-4">
             Original. Pure. Classy.
